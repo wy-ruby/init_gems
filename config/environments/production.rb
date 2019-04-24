@@ -20,6 +20,7 @@ Rails.application.configure do
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
+  # 如果是设置了nginx处理静态文件的话，这个地方就设置false即可。
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Compress JavaScripts and CSS.
@@ -28,6 +29,12 @@ Rails.application.configure do
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
+
+  # 是否压缩编译后的静态资源文件
+  config.assets.compress = true
+
+  # 在静态资源文件名中加入 MD5 指纹。
+  config.assets.digest = true
 
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
@@ -57,7 +64,8 @@ Rails.application.configure do
   config.log_tags = [ :request_id ]
 
   # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
+  # 配置缓存的存储位置为redis,redis服务器总共可以设置16个数据库，如果没有设置默认是0
+  config.cache_store = :redis_cache_store, REDIS_CONFIG.merge({namespace: 'cache', compress: true})
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
@@ -78,6 +86,9 @@ Rails.application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  # 设置一个全局字符串，作为数据表名的前缀。
+  # config.active_record.table_name_prefix = rgt_
 
   # Use a different logger for distributed setups.
   # require 'syslog/logger'
