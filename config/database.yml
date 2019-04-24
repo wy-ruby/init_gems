@@ -11,12 +11,13 @@ base: &base
 development:
   <<: *base
   database: init_gems_dev
+  password: <%= ENV["DATABASE_PASSWORD"] %>
 
 
 production:
   <<: *base
   database: init_gems
-  password: qwe123!@#
+  password: <%= ENV["DATABASE_PASSWORD"] %>
 
 test:
   <<: *base
