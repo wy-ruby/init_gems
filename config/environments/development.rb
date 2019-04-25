@@ -27,6 +27,12 @@ Rails.application.configure do
     config.cache_store = :redis_cache_store, REDIS_CONFIG.merge({namespace: 'cache', compress: true})
   end
 
+  # 配置http缓存
+  config.action_dispatch.rack_cache = {
+      metastore: "redis://localhost:6379/1/metastore",
+      entitystore: "redis://localhost:6379/1/entitystore"
+  }
+
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = :local
 

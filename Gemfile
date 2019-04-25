@@ -49,12 +49,14 @@ gem 'i18n'
 gem 'rails-i18n', '~> 5.0.3'
 
 # redis相关的。 hiredis是一个高性能的redis两者结合用，和redis这个gem结合用。当您有大量回复（例如：lrange、smembers、zrange等）或使用大型管道时，最好使用hiredis。
-# redis-rails是提供了完整的一套如(cache,session,http cache)等存储功能的包。如果rails是5.2及以上的版本，并且只需要使用片段缓存的话就不需要这个了，rails5.2已经有了。
+# redis-rails和redis-rack-cache是提供了完整的一套如(cache,session,http cache)等存储功能的包。如果rails是5.2及以上的版本，并且只需要使用片段缓存的话就不需要这个了，rails5.2已经有了。
 # redis-namespace这个是可以让redis在配置文件中设置命名空间的gem包
 gem 'hiredis', '~> 0.6.1'
 gem 'redis', '~> 4.0.2'
 gem 'redis-namespace'
+
 gem 'redis-rails'
+gem 'redis-rack-cache'
 
 # 数据库初始数据相关。默认读取的是db/fixtures下的文件。
 gem 'seed-fu'
