@@ -4,31 +4,38 @@
 # the maximum value specified for Puma. Default is set to 5 threads for minimum
 # and maximum; this matches the default thread size of Active Record.
 #
-threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
-threads threads_count, threads_count
+# 详细的配置方法可以看 https://github.com/puma/puma/blob/master/examples/config.rb
 
-# Specifies the `port` that Puma will listen on to receive requests; default is 3000.
-#
-port        ENV.fetch("PORT") { 3000 }
+if ENV['RAILS_ENV'] == 'production'
+  app_root = '/root/live/init_gems/shared'
+  pidfile "#{app_root}/tmp/pids/puma.pid"
+  state_path "#{app_root}/tmp/pids/puma.state"
+  bind "unix://#{app_root}/tmp/sockets/puma.sock"
+  activate_control_app "unix://#{app_root}/tmp/sockets/pumactl.sock"
 
-# Specifies the `environment` that Puma will run in.
-#
-environment ENV.fetch("RAILS_ENV") { "development" }
+  # 守护进程
+  daemonize true
 
-# Specifies the number of `workers` to boot in clustered mode.
-# Workers are forked webserver processes. If using threads and workers together
-# the concurrency of the application would be max `threads` * `workers`.
-# Workers do not work on JRuby or Windows (both of which do not support
-# processes).
-#
-# workers ENV.fetch("WEB_CONCURRENCY") { 2 }
+  # 要运行多少工作进程。通常设置为到可用内核的数量。
+  workers 2
 
-# Use the `preload_app!` method when specifying a `workers` number.
-# This directive tells Puma to first boot the application and load code
-# before forking the application. This takes advantage of Copy On Write
-# process behavior so workers use less memory.
-#
-# preload_app!
+  # 配置最小及最大线程数
+  threads 8, 16
 
-# Allow puma to be restarted by `rails restart` command.
-plugin :tmp_restart
+  prune_bundler
+
+  # 标准输出日志以及错误日志
+  stdout_redirect "#{app_root}/log/puma_access.log", "#{app_root}/log/puma_error.log", true
+else
+  root_path = '/Users/poly/www/ruby/init_gems'
+
+  # pid保存的目录
+  pidfile "#{root_path}/tmp/pids/puma.pid"
+
+  # 服务器状态
+  state_path "#{root_path}/tmp/pids/puma.state"
+
+  port        ENV.fetch("PORT") { 3000 }
+  environment ENV.fetch("RAILS_ENV") { "development" }
+  plugin :tmp_restart
+end

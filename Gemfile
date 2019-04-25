@@ -62,22 +62,22 @@ gem 'redis-rack-cache'
 gem 'seed-fu'
 
 # 能创造简单并且比较高级的搜索条件。
-gem 'ransack', '~> 1.8.2'
+# gem 'ransack', '~> 1.8.2'
 
 # Kaminari是一个基于范围和引擎的、干净、强大、可自定义复杂条件的分页器。
-gem 'kaminari', '~> 1.1.1'
+# gem 'kaminari', '~> 1.1.1'
 
 # 使用yaml文件去安全地配置Rails应用程序，并且可以将配置存储在系统环境变量
 gem 'figaro'
 
 # rails中使用jquery
-gem 'jquery-rails'
+# gem 'jquery-rails'
 
 # 前端ui框架bootstrap
-gem 'bootstrap', '~> 4.1.0'
+# gem 'bootstrap', '~> 4.1.0'
 
 # 更简单更强大的表单创建。
-gem 'simple_form', '~> 4.0.0'
+# gem 'simple_form', '~> 4.0.0'
 
 # 简化模板
 # gem "haml-rails", "~> 2.0"
@@ -87,7 +87,7 @@ gem 'simple_form', '~> 4.0.0'
 # gem 'high_voltage', '~> 3.0.0'
 
 # 监控 数据库、redis、Cache、Sidekiq、Resque的状态的工具。
-gem 'status-page'
+# gem 'status-page'
 
 # 拒绝低版本浏览器的访问，并给其返回一个让其升级的页面。
 gem 'browser_warrior', '>= 0.8.0'
