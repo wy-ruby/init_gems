@@ -29,8 +29,8 @@ Rails.application.configure do
 
   # 配置http缓存
   config.action_dispatch.rack_cache = {
-      metastore: "redis://localhost:6379/1/metastore",
-      entitystore: "redis://localhost:6379/1/entitystore"
+      metastore: "redis://localhost:6379/2/metastore",
+      entitystore: "redis://localhost:6379/2/entitystore"
   }
 
   # Store uploaded files on the local file system (see config/storage.yml for options)

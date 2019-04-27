@@ -1,0 +1,20 @@
+# sidekiq配置文件是sidekiq服务器用于配置自身的yaml文件，默认位于config/sidekiq.yml。
+# concurrency这个参数是用来配置并发性的。pidfile是配置pid放置的位置。logfile是用来配置日志位置。将池设置设置为接近或等于线程数的值：
+# queues是用来配置队列的，默认对列名是default，如要要配置多个队列的话如下所配置的，后面的数字指的是权重。可以给工作线程指定队列名。
+# staging和production是指所在的环境。
+# 如果发送任务失败会默认进行重试，默认重试25次，当然这个可以通过配置项max_retries进行更改。
+
+---
+:pidfile: tmp/pids/sidekiq.pid
+:logfile: log/sidekiq.log
+:timeout: 30
+:max_retries: 10
+:concurrency: 30
+staging:
+  :concurrency: 10
+production:
+  :concurrency: 30
+:queues:
+  - [critical, 2]
+  - default
+  - low

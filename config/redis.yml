@@ -17,11 +17,9 @@ sidekiq:
   port: 6378
   password: <%= ENV["REDIS_PASSWORD"] %>
   db: 1
-  namespace: highlander_sidekiq
 
 local_sidekiq:
   <<: *base
   port: 6379
   password:
   db: 1
-  namespace: highlander_sidekiq

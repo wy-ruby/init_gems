@@ -18,7 +18,14 @@ module InitGems
 end
 
 read_config = YAML.load_file('config/redis.yml')
+if Rails.env.production?
+  sidekiq_config = read_config['sidekiq']
+else
+  sidekiq_config = read_config['local_sidekiq']
+end
 # 不使用hiredis
 # REDIS_CONFIG = read_config[Rails.env].deep_symbolize_keys
+# SIDEKIQ_REDIS_CONFIG = sidekiq_config.deep_symbolize_keys
 # 使用hiredis。当有大量回复（例如：lrange、smembers、zrange等）或使用大型管道时，最好使用hiredis。
 REDIS_CONFIG = read_config[Rails.env].deep_symbolize_keys.merge(:driver => :hiredis)
+SIDEKIQ_REDIS_CONFIG = sidekiq_config.deep_symbolize_keys.merge(:driver => :hiredis)

@@ -1,0 +1,52 @@
+#!/bin/bash --login
+cd $(dirname $0);
+NAME="sidekiq"
+
+start(){
+	start_default
+}
+
+start_default(){
+	pid_file="tmp/pids/sidekiq.pid"
+  if [[ -f $pid_file && -n "$(ps -p `cat $pid_file` -o pid=)" ]]; then
+		echo "$NAME(default) service already running."
+	else
+		bundle exec $NAME -e production -d --logfile log/sidekiq.log --pidfile $pid_file
+		echo "$NAME(default) service started."
+	fi
+}
+
+
+stop(){
+  stop_default
+}
+
+stop_default(){
+	pid_file="tmp/pids/sidekiq.pid"
+	if [[ -f $pid_file && -n "$(ps -p `cat $pid_file` -o pid=)"  ]];then
+		echo "$NAME(default) stopping ..."
+		bundle exec sidekiqctl stop $pid_file
+	else
+		echo "$NAME(default) current service already stop."
+	fi
+}
+
+restart(){
+	stop
+	sleep 3s
+	start
+}
+
+case "$1" in
+  start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	restart)
+		restart
+		;;
+	*)
+		echo "Usage: sidekiq start|stop|restart"
+esac
