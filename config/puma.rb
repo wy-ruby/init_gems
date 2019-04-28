@@ -12,6 +12,7 @@ if ENV['RAILS_ENV'] == 'production'
   state_path "#{app_root}/tmp/pids/puma.state"
   bind "unix://#{app_root}/tmp/sockets/puma.sock"
   activate_control_app "unix://#{app_root}/tmp/sockets/pumactl.sock"
+  port 3002
 
   # 守护进程
   daemonize true
