@@ -74,7 +74,7 @@ gem 'figaro'
 # gem 'jquery-rails'
 
 # 前端ui框架bootstrap
-# gem 'bootstrap', '~> 4.1.0'
+gem 'bootstrap', '~> 4.3.0'
 
 # 更简单更强大的表单创建。
 # gem 'simple_form', '~> 4.0.0'
