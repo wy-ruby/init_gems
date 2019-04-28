@@ -37,4 +37,4 @@
 # /config/redis.yml
 # /config/puma.rb
 # /config/deploy.rb
-# /config/deploy/production.rb
+/config/deploy/production.rb
