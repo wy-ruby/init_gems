@@ -17,7 +17,8 @@ module InitGems
   end
 end
 
-read_config = YAML.load_file('config/redis.yml')
+# read_config = YAML.load_file('config/redis.yml')
+read_config = YAML::load(ERB.new(IO.read('config/redis.yml')).result)
 if Rails.env.production?
   sidekiq_config = read_config['sidekiq']
 else
