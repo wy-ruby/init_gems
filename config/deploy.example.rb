@@ -19,7 +19,7 @@ append :linked_files, 'config/database.yml', 'config/config.yml', 'config/redis.
 @repo_url = "#{@git_url}/#{@project_name}.git"
 
 # 服务器上部署的路径配置
-@app_dir = 'rails_gems_tool'
+@app_dir = 'init_gems'
 @complete_app_dir = "/home/username/#{@app_dir}"
 
 # 输入要发布的分支

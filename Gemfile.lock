@@ -1,5 +1,5 @@
 GEM
-  remote: https://rubygems.org/
+  remote: https://gems.ruby-china.com/
   specs:
     actioncable (5.2.3)
       actionpack (= 5.2.3)
@@ -369,6 +369,9 @@ GEM
       tty-which (~> 0.4.0)
       virtus (~> 1.0)
     rubyzip (1.2.2)
+    rvm1-capistrano3 (1.4.0)
+      capistrano (~> 3.0)
+      sshkit (>= 1.2)
     safe_yaml (1.0.5)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
@@ -522,6 +525,7 @@ DEPENDENCIES
   rubocop (~> 0.58.2)
   rubocop-rspec (~> 1.29)
   rubycritic
+  rvm1-capistrano3
   sass-rails (~> 5.0)
   seed-fu
   selenium-webdriver

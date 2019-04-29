@@ -32,9 +32,9 @@
 .idea
 # Ignore application configuration
 /config/application.yml
-# /config/database.yml
-# /config/master.key
-# /config/redis.yml
+/config/database.yml
+/config/master.key
+/config/redis.yml
 # /config/puma.rb
 # /config/deploy.rb
 /config/deploy/production.rb

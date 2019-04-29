@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'https://gems.ruby-china.com'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.5.1'
@@ -118,11 +118,13 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 
-  # capistrano相关的gem
+  # capistrano相关的gem。如果服务器没有安装rvm及ruby可以使用rvm1-capistrano3这个gem去在服务端自动安装。
   gem 'capistrano', '~> 3.11', require: false
   gem 'capistrano-bundler', '~> 1.5', require: false
   gem 'capistrano-rails', '~> 1.4', require: false
   gem 'capistrano-rvm', require: false
+  # 可以在服务器安装rvm及ruby的工具。
+  gem 'rvm1-capistrano3', require: false
   gem 'capistrano-sidekiq'
   gem 'capistrano3-puma'
 
