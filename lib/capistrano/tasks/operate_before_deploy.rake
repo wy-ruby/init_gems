@@ -7,7 +7,7 @@ namespace :first_deploy do
       invoke "deploy:check:make_linked_dirs"
       invoke "first_deploy:upload_linked_files"
       invoke "deploy:check:linked_files"
-      invoke "first_deploy:create_database"
+      # invoke "first_deploy:create_database"
     end
   end
 
