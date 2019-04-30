@@ -88,7 +88,7 @@ set :branch, @branch
 # 是否使用SSHKit 详见 https://github.com/capistrano/sshkit/，该值为true会影响sidekiq的启动。
 set :pty, true
 # 使用SSHKit的时候，选择的日志的层级。有:info, :warn，:error, :debug
-set :log_level, :debug
+set :log_level, :info
 # 部署代码过程中打印的日志的格式，默认是airbrussh(打印的日志是:warn or :error)。
 # 还有其他的变量 :dot和 :pretty,使用:dot或者:pretty(格式相对比较好看些)打印配置的。
 set :format, :pretty
@@ -126,7 +126,7 @@ set :assets_manifests, ['app/assets/config/manifest.js']
 # 虽然迁移一般是针对数据库的，但是在rails中数据库的迁移和rails框架密切相关，因此这里设置为应用 :app，而不是 :db
 set :migration_role, :app
 # 创建文件夹public/images, public/javascripts, 以及 public/stylesheets在每个部署的服务器上
-set :normalize_asset_timestamps, %w[public/images public/javascripts public/stylesheets]
+# set :normalize_asset_timestamps, %w[public/images public/javascripts public/stylesheets]
 # 设置编译的静态资源角色
 set :assets_roles, %i[web app]
 
@@ -181,7 +181,9 @@ set :rvm_ruby_version, @rvm_version
 # after 'deploy:published', 'bundler:clean'
 
 # before 'deploy', 'deploy:first_deploy'
-# before 'deploy', 'deploy:check'
+# before 'deploy', 'deploy:
+# 在第一次部署的时候运行该命令,用来创建数据库。
+before 'deploy:updated', 'deploy:create_database'
 
 namespace :deploy do
   # 如果是第一次部署的话需要执行的操作
