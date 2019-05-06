@@ -28,7 +28,7 @@ install_plugin Capistrano::SCM::Git
 #   https://github.com/seuros/capistrano-sidekiq
 #   https://github.com/seuros/capistrano-puma
 
-# require 'rvm1/capistrano3'
+require 'rvm1/capistrano3'
 require 'capistrano/rvm'
 require 'capistrano/bundler'
 require 'capistrano/rails/assets'

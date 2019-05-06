@@ -17,13 +17,13 @@ module InitGems
   end
 end
 
-read_config = YAML.load_file('config/redis.yml')
-# read_config = YAML::load(ERB.new(IO.read('config/redis.yml')).result)
+read_config = YAML::load(ERB.new(IO.read('config/redis.yml')).result)
 if Rails.env.production?
   sidekiq_config = read_config['sidekiq']
 else
   sidekiq_config = read_config['local_sidekiq']
 end
+
 # 不使用hiredis
 # REDIS_CONFIG = read_config[Rails.env].deep_symbolize_keys
 # SIDEKIQ_REDIS_CONFIG = sidekiq_config.deep_symbolize_keys

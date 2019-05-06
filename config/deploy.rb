@@ -58,9 +58,9 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bund
 # 注意这些手动添加的配置中需要有对应的内容，否则也会报错
 append :linked_files, 'config/database.yml', 'config/application.yml', 'config/redis.yml', 'config/master.key'
 
-# 服务器上的ruby版本以及gemset名
-# @ruby_version = '2.5.1'
-@rvm_version = '2.5.1@init_gems'
+# 服务器上的ruby版本以及gemset的名字，如果不在服务器上配置gemset的话，gemset可为空字符串。
+@ruby_version = '2.5.1'
+@gemset_name = 'init_gems'
 
 # 项目仓库配置
 @project_name = 'init_gems'
@@ -88,7 +88,7 @@ set :branch, @branch
 # 是否使用SSHKit 详见 https://github.com/capistrano/sshkit/，该值为true会影响sidekiq的启动。
 set :pty, true
 # 使用SSHKit的时候，选择的日志的层级。有:info, :warn，:error, :debug
-set :log_level, :info
+set :log_level, :debug
 # 部署代码过程中打印的日志的格式，默认是airbrussh(打印的日志是:warn or :error)。
 # 还有其他的变量 :dot和 :pretty,使用:dot或者:pretty(格式相对比较好看些)打印配置的。
 set :format, :pretty
@@ -131,13 +131,13 @@ set :migration_role, :app
 set :assets_roles, %i[web app]
 
 
-# bundle相关。本身deploy.rake有做在updating的时候设置set_release_path的，然后就可以设置对应的release_path了，但是不知道为什么没有设置
+# 配置bundle。本身deploy.rake有做在updating的时候设置set_release_path的，然后就可以设置对应的release_path了，但是不知道为什么没有设置
 # 所以这里需要在第一次发布的时候设置下，之后必须要删除了，并设置set :bundle_gemfile, -> { current_path.join('Gemfile') }即可
 # set_release_path
 # set :bundle_gemfile, -> { release_path.join('Gemfile') }
 
 
-# capistrano3版本及以上引入whenever的时候带上该命令是可以执行whenever -i的，即更新crontab的配置。
+# 配置whenever。capistrano3版本及以上引入whenever的时候带上该命令是可以执行whenever -i的，即更新crontab的配置。
 # set :whenever_identifier, -> { "#{fetch(:application)}_#{fetch(:stage)}" }
 # set :default_env, BUNDLE_GEMFILE: "#{release_path}/Gemfile"
 # set :whenever_load_file, -> { File.join(release_path, 'config', 'schedule.rb') }
@@ -158,20 +158,15 @@ set :assets_roles, %i[web app]
 
 # 配置puma
 
-
-# 配置rvm的ruby版本以及gemset。capistrano-rvm这个gem的配置。
-set :rvm_ruby_version, @rvm_version
-
-# 配置要安装的gem版本，这个是rvm1-capistrano3这个gem的配置。
-# set :rvm1_ruby_version, @ruby_version
+# 配置rvm1-capistrano3 如果在服务器上没有安装rvm以及ruby可以通过这个gem自动配置安装。
+set :rvm1_ruby_version, @ruby_version + (@gemset_name.empty? ? '' : "@#{@gemset_name}")
 # rvm1-capistrano3这个gem的功能，并且该gem可以自动创建gemset
 # 可以安装rvm
 # before 'deploy', 'rvm1:install:rvm'
 # 可以安装ruby
 # before 'deploy', 'rvm1:install:ruby'
 # 配置rvm-auto.sh文件所在的目录
-# set :rvm1_auto_script_path, File.expand_path("../", fetch(:deploy_to))
-
+set :rvm1_auto_script_path, File.expand_path("../", fetch(:deploy_to))
 
 # 使用unicorn去运行该命令，如果是首次运行或者服务器端的unicorn进程挂掉的情况的话使用unicorn:start，其他的情况使用unicorn:restart或者unicorn:legacy_restart
 # after 'deploy:publishing', 'deploy:restart'
@@ -180,7 +175,7 @@ set :rvm_ruby_version, @rvm_version
 # 等发布完成之后把那些没有用到的gem给删除了,这个建议等删除的gem比较多的话再用。
 # after 'deploy:published', 'bundler:clean'
 
-# before 'deploy', 'deploy:first_deploy'
+before 'deploy', 'deploy:first_deploy'
 # before 'deploy', 'deploy:
 # 在第一次部署的时候运行该命令,用来创建数据库。
 before 'deploy:updated', 'deploy:create_database'
@@ -189,33 +184,24 @@ namespace :deploy do
   # 如果是第一次部署的话需要执行的操作
   task :first_deploy do
     on roles(:all) do
-      if test ("[! -d #{fetch(:deploy_to)}]")
-        invoke "deploy:curd_database"
-        invoke "deploy:upload_linked_files"
+      # 如果服务器上根本没有要部署的这个目录的话，就可以确定是第一次部署。如果还没有部署之前就创建该目录的话需要删除。
+      if test ("[ ! -d #{fetch(:deploy_to)} ]")
+        invoke "first_deploy:init"
       end
     end
   end
 
-  # 自定义了一个部署任务, 即自动运行 rake RAILS_ENV=rails_env db:create
+  # 如果是第一次部署需要去创建数据库。
   # 其中 release_path 指的是当前 release 目录
-  # `fetch(:rails_env)` 读取配置中的 rails_env 变量, 并在 rake 命令中带上 env 变量
+  # with是设置变量。`fetch(:rails_env)` 读取配置中的 rails_env 变量
   task :create_database do
     on roles(:db) do
-      within release_path do
-        with rails_env: fetch(:rails_env) do
-          # execute :rake, 'db:create' #如果是第一次部署可以加上该行代码以便创建数据库。
-          # 根据设置的：rails_evn的变量配置对应的RAILS_ENV环境，然后进行rake下的migrate操作
-          execute :rake, 'db:create'
+      if test ("[ ! -d #{fetch(:deploy_to)} ]")
+        within release_path do
+          with rails_env: fetch(:rails_env) do
+            execute :rake, 'db:create'
+          end
         end
-      end
-    end
-  end
-
-  # 给服务器上，上传必要的文件
-  task :upload_linked_files do
-    on roles(:app) do
-      fetch(:linked_files) do |filename|
-        upload! filename, shared_path
       end
     end
   end
