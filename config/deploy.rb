@@ -159,8 +159,6 @@ set :nginx_sites_available_path, "#{shared_path}/config"
 set :nginx_sites_enabled_path, "/etc/nginx/conf.d"
 # 配置nginx的server_name
 set :nginx_server_name, "localhost"
-# 配置端口
-set :nginx_port, 3333
 
 # 配置nginx权限角色，默认是:web，可以自定义。
 set :puma_nginx, [:web, :app]
