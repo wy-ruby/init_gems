@@ -187,6 +187,9 @@ set :rvm1_auto_script_path, File.expand_path("../", fetch(:deploy_to))
 # 等发布完成之后把那些没有用到的gem给删除了,这个建议等删除的gem比较多的话再用。
 # after 'deploy:published', 'bundler:clean'
 
+# 部署完成后重启puma。
+after 'deploy:publishing', 'puma:restart'
+
 before 'deploy', 'deploy:first_deploy'
 # before 'deploy', 'deploy:
 # 在第一次部署的时候运行该命令,用来创建数据库。
