@@ -149,9 +149,19 @@ set :assets_roles, %i[web app]
 # 使用命令：rails g capistrano:nginx_puma:config，在config/deploy/templates/目录下创建nginx和puma的配置文件，可自定义后再执行上面两个命令
 # 也可以直接使用命令：cap production puma:nginx_config ，cap production puma:config去上传文件到服务器上
 # 更详细的配置请看：https://github.com/seuros/capistrano-puma
+
 # 配置nginx的保存目录
-set :nginx_sites_available_path, "/etc/nginx/conf.d"
+# # 配置nginx中保存的文件的名字
+set :nginx_config_name, "#{fetch(:application)}_#{fetch(:stage)}.nginx.conf"
+# nginx配置文件的保存目录
+set :nginx_sites_available_path, "#{shared_path}/config"
+# nginx配置文件的软链接的目录
 set :nginx_sites_enabled_path, "/etc/nginx/conf.d"
+# 配置nginx的server_name
+set :nginx_server_name, "localhost"
+# 配置端口
+set :nginx_port, 3333
+
 # 配置nginx权限角色，默认是:web，可以自定义。
 set :puma_nginx, [:web, :app]
 #配置最小及最大线程数

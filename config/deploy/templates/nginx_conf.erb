@@ -12,7 +12,7 @@ end
 }
 <% if fetch(:nginx_use_ssl) -%>
 server {
-  listen 80;
+  listen <%= fetch(:nginx_port) || 80 %>;
   server_name <%= fetch(:nginx_server_name) %>;
   return 301 https://$host$1$request_uri;
 }
