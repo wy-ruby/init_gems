@@ -131,24 +131,10 @@ set :migration_role, :app
 set :assets_roles, %i[web app]
 
 
-# 配置bundle。本身deploy.rake有做在updating的时候设置set_release_path的，然后就可以设置对应的release_path了，但是不知道为什么没有设置
-# 所以这里需要在第一次发布的时候设置下，之后必须要删除了，并设置set :bundle_gemfile, -> { current_path.join('Gemfile') }即可
-# set_release_path
-# set :bundle_gemfile, -> { release_path.join('Gemfile') }
-
-
 # 配置whenever。capistrano3版本及以上引入whenever的时候带上该命令是可以执行whenever -i的，即更新crontab的配置。
 # set :whenever_identifier, -> { "#{fetch(:application)}_#{fetch(:stage)}" }
 # set :default_env, BUNDLE_GEMFILE: "#{release_path}/Gemfile"
 # set :whenever_load_file, -> { File.join(release_path, 'config', 'schedule.rb') }
-
-
-# 配置unicorn的运行的目录
-# set :unicorn_config_path, -> { File.join(release_path, 'config', 'unicorn.rb') }
-# 必须要设置该参数，否则无法执行。
-# set :unicorn_roles, %i[db app web]
-# 这个参数必须要配置，要不然会默认执行development环境的。
-# set :unicorn_rack_env, -> { fetch(:stage) }
 
 
 # 配置sidekiq,这里不需要去设置sidekiq的启动或者重启，在capistrano_sidekiq中已经自动执行了。
@@ -156,7 +142,25 @@ set :assets_roles, %i[web app]
 # 这个参数必须要设置，否则无法执行。
 # set :sidekiq_roles, %i[db app web]
 
-# 配置puma
+
+# 配置capistrano-puma
+# 上传nginx配置使用命令：cap production puma:nginx_config 是把该gem默认生成的配置，直接上传到服务器上的/etc/nginx/sites-enabled/目录下
+# 上传puma配置使用命令：cap production puma:config 是把该gem默认生成的配置，上传到服务器上项目的根目录下的shared文件夹下
+# 使用命令：rails g capistrano:nginx_puma:config，在config/deploy/templates/目录下创建nginx和puma的配置文件，可自定义后再执行上面两个命令
+# 也可以直接使用命令：cap production puma:nginx_config ，cap production puma:config去上传文件到服务器上
+# 更详细的配置请看：https://github.com/seuros/capistrano-puma
+# 配置nginx的保存目录
+set :nginx_sites_available_path, "/etc/nginx/conf.d"
+set :nginx_sites_enabled_path, "/etc/nginx/conf.d"
+# 配置nginx权限角色，默认是:web，可以自定义。
+set :puma_nginx, [:web, :app]
+#配置最小及最大线程数
+set :puma_threads, [0, 16]
+# 要运行多少工作进程。通常设置为到可用内核的数量。
+set :puma_workers, 2
+# puma配置文件的保存目录,在.gitignore中添加忽略该文件。
+set :puma_conf, "#{shared_path}/config/puma.rb"
+
 
 # 配置rvm1-capistrano3 如果在服务器上没有安装rvm以及ruby可以通过这个gem自动配置安装。
 set :rvm1_ruby_version, @ruby_version + (@gemset_name.empty? ? '' : "@#{@gemset_name}")

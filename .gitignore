@@ -35,6 +35,6 @@
 /config/database.yml
 /config/master.key
 /config/redis.yml
-# /config/puma.rb
+/config/puma.rb
 # /config/deploy.rb
 /config/deploy/production.rb

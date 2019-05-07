@@ -23,10 +23,10 @@ if ENV['RAILS_ENV'] == 'production'
   # 配置最小及最大线程数
   threads 8, 16
 
-  prune_bundler
-
   # 标准输出日志以及错误日志
   stdout_redirect "#{app_root}/log/puma_access.log", "#{app_root}/log/puma_error.log", true
+
+  prune_bundler
 else
   root_path = '/Users/poly/www/ruby/init_gems'
 
