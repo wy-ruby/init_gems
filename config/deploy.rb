@@ -201,6 +201,9 @@ namespace :deploy do
       # 如果服务器上根本没有要部署的这个目录的话，就可以确定是第一次部署。如果还没有部署之前就创建该目录的话需要删除。
       if test ("[ ! -d #{fetch(:deploy_to)} ]")
         invoke "first_deploy:init"
+      else
+        # 把配置文件在每次发布的时候都上传一下
+        invoke "first_deploy:upload_linked_files"
       end
     end
   end
