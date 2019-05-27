@@ -14,6 +14,16 @@ module InitGems
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+
+    # active job设置队列后台连接器，配置成sidekiq的。
+    config.active_job.queue_adapter = :sidekiq
+
+    # 如加入对面名前缀和连接前缀后对列名变成了 development.queue_name
+    # 设置任务队列名称的前缀。
+    config.active_job.queue_name_prefix = Rails.env
+    # 默认队列名称的连接前缀是 _
+    config.active_job.queue_name_delimiter = '.'
+
   end
 end
 

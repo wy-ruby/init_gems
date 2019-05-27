@@ -533,6 +533,7 @@ DEPENDENCIES
   slack-notifier
   spring
   spring-watcher-listen (~> 2.0.0)
+  sprockets (~> 3.0)
   stackprof
   timecop
   traceroute

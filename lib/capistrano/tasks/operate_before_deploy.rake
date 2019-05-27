@@ -3,13 +3,18 @@ namespace :first_deploy do
   task :init do
     on roles(:all) do
       if test("[ ! -d #{fetch(:deploy_to)} ]")
-        invoke "first_deploy:gemset_and_bundle"
+        # 第一次配置需要安装bundler
+        invoke "first_deploy:install_bundle"
         invoke "deploy:check:directories"
         invoke "deploy:check:linked_dirs"
         invoke "deploy:check:make_linked_dirs"
+        # 上传git中忽略的但是必要的配置文件到要部署的服务器
         invoke "first_deploy:upload_linked_files"
         invoke "deploy:check:linked_files"
-        # invoke "first_deploy:create_database"
+        # 上传puma的配置文件到要部署的服务器
+        invoke "puma:config"
+        # 上传nginx的配置文件到要部署的服务器
+        invoke "puma:nginx_config"
       end
     end
   end
@@ -25,7 +30,7 @@ namespace :first_deploy do
 
   # 在服务器上配置需要的gemset以及安装bundle。默认是在服务器上已经安装好了rvm和 +对应版本+ 的ruby了。
   # 如果没有安装rvm以及对应版本的ruby的建议先安装，后续这块会有更新。
-  task :gemset_and_bundle do
+  task :install_bundle do
     on roles(:all) do
       gems = capture(:rvm, "#{fetch(:rvm1_ruby_version)} do gem list")
       # 判断bundler是否存在。

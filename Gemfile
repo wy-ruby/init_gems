@@ -38,6 +38,9 @@ gem 'bcrypt', '~> 3.1.7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
+# 是用于编译和服务assets的Ruby库
+# gem 'sprockets', '~> 3.0'
+
 # 异步队列。
 gem 'sidekiq'
 

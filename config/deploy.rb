@@ -131,23 +131,22 @@ set :migration_role, :app
 set :assets_roles, %i[web app]
 
 
-# 配置whenever。capistrano3版本及以上引入whenever的时候带上该命令是可以执行whenever -i的，即更新crontab的配置。
+# TODO 配置whenever。capistrano3版本及以上引入whenever的时候带上该命令是可以执行whenever -i的，即更新crontab的配置。
 # set :whenever_identifier, -> { "#{fetch(:application)}_#{fetch(:stage)}" }
 # set :default_env, BUNDLE_GEMFILE: "#{release_path}/Gemfile"
 # set :whenever_load_file, -> { File.join(release_path, 'config', 'schedule.rb') }
 
 
-# 配置sidekiq,这里不需要去设置sidekiq的启动或者重启，在capistrano_sidekiq中已经自动执行了。
+# TODO 配置sidekiq,这里不需要去设置sidekiq的启动或者重启，在capistrano_sidekiq中已经自动执行了。
 # set :sidekiq_config, "#{release_path}/config/sidekiq.yml"
 # 这个参数必须要设置，否则无法执行。
 # set :sidekiq_roles, %i[db app web]
 
 
 # 配置capistrano-puma
-# 上传nginx配置使用命令：cap production puma:nginx_config 是把该gem默认生成的配置，直接上传到服务器上的/etc/nginx/sites-enabled/目录下
-# 上传puma配置使用命令：cap production puma:config 是把该gem默认生成的配置，上传到服务器上项目的根目录下的shared文件夹下
+# 上传nginx配置使用命令：cap production puma:nginx_config 是把该gem根据下列的配置生成的配置文件，上传到服务器上的/etc/nginx/sites-enabled/目录下
+# 上传puma配置使用命令：cap production puma:config 是把该gem根据下列的配置生成的配置文件，上传到服务器上项目的根目录下的shared文件夹下
 # 使用命令：rails g capistrano:nginx_puma:config，在config/deploy/templates/目录下创建nginx和puma的配置文件，可自定义后再执行上面两个命令
-# 也可以直接使用命令：cap production puma:nginx_config ，cap production puma:config去上传文件到服务器上
 # 更详细的配置请看：https://github.com/seuros/capistrano-puma
 
 # 配置nginx的保存目录
@@ -180,19 +179,19 @@ set :rvm1_ruby_version, @ruby_version + (@gemset_name.empty? ? '' : "@#{@gemset_
 # 配置rvm-auto.sh文件所在的目录
 set :rvm1_auto_script_path, File.expand_path("../", fetch(:deploy_to))
 
-# 使用unicorn去运行该命令，如果是首次运行或者服务器端的unicorn进程挂掉的情况的话使用unicorn:start，其他的情况使用unicorn:restart或者unicorn:legacy_restart
-# after 'deploy:publishing', 'deploy:restart'
+
 # 执行db/fixtures/*下的任务
-# before 'deploy:publishing', 'db:seed_fu'
+before 'deploy:publishing', 'db:seed_fu'
+
+
 # 等发布完成之后把那些没有用到的gem给删除了,这个建议等删除的gem比较多的话再用。
 # after 'deploy:published', 'bundler:clean'
 
 # 部署完成后重启puma。
 after 'deploy:publishing', 'puma:restart'
-
+# 第一次部署的时候需要执行的内容
 before 'deploy', 'deploy:first_deploy'
-# before 'deploy', 'deploy:
-# 在第一次部署的时候运行该命令,用来创建数据库。
+# 在第一次部署的时候,用来创建数据库，如果不是第一次部署的话不会执行任何操作。
 before 'deploy:updated', 'deploy:create_database'
 
 namespace :deploy do
