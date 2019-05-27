@@ -56,7 +56,7 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bund
 # 在部署期间，列出的文件将从应用程序的共享文件夹(shared)中链接到每个发布目录。可用于持久性配置文件，如database.yml等文件。
 # 注意这里rails是5.2版本的，从这个版本开始，config/secrets.yml变成了config/master.key，即低于5.2版本的话要引入的是secrets.yml,否则会报错。
 # 注意这些手动添加的配置中需要有对应的内容，否则也会报错
-append :linked_files, 'config/database.yml', 'config/application.yml', 'config/redis.yml', 'config/master.key'
+append :linked_files, 'config/database.yml', 'config/application.yml', 'config/redis.yml', 'config/master.key', 'config/sidekiq.yml'
 
 # 服务器上的ruby版本以及gemset的名字，如果不在服务器上配置gemset的话，@gemset_name可为空字符串。
 @ruby_version = '2.5.1'
@@ -138,9 +138,9 @@ set :assets_roles, %i[web app]
 
 
 # TODO 配置sidekiq,这里不需要去设置sidekiq的启动或者重启，在capistrano_sidekiq中已经自动执行了。
-# set :sidekiq_config, "#{release_path}/config/sidekiq.yml"
-# 这个参数必须要设置，否则无法执行。
-# set :sidekiq_roles, %i[db app web]
+set :sidekiq_config, "#{shared_path}/config/sidekiq.yml"
+# 设置执行的角色。
+set :sidekiq_roles, %i[app web]
 
 
 # 配置capistrano-puma
@@ -181,7 +181,7 @@ set :rvm1_auto_script_path, File.expand_path("../", fetch(:deploy_to))
 
 
 # 执行db/fixtures/*下的任务
-before 'deploy:publishing', 'db:seed_fu'
+# before 'deploy:publishing', 'db:seed_fu'
 
 
 # 等发布完成之后把那些没有用到的gem给删除了,这个建议等删除的gem比较多的话再用。
