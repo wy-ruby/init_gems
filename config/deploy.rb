@@ -88,7 +88,7 @@ set :branch, @branch
 # 是否使用SSHKit 详见 https://github.com/capistrano/sshkit/，该值为true会影响sidekiq的启动。
 set :pty, true
 # 使用SSHKit的时候，选择的日志的层级。有:info, :warn，:error, :debug
-set :log_level, :debug
+set :log_level, :info
 # 部署代码过程中打印的日志的格式，默认是airbrussh(打印的日志是:warn or :error)。
 # 还有其他的变量 :dot和 :pretty,使用:dot或者:pretty(格式相对比较好看些)打印配置的。
 set :format, :pretty
