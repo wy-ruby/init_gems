@@ -58,7 +58,7 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bund
 # 注意这些手动添加的配置中需要有对应的内容，否则也会报错
 append :linked_files, 'config/database.yml', 'config/application.yml', 'config/redis.yml', 'config/master.key'
 
-# 服务器上的ruby版本以及gemset的名字，如果不在服务器上配置gemset的话，gemset可为空字符串。
+# 服务器上的ruby版本以及gemset的名字，如果不在服务器上配置gemset的话，@gemset_name可为空字符串。
 @ruby_version = '2.5.1'
 @gemset_name = 'init_gems'
 
@@ -170,14 +170,14 @@ set :puma_conf, "#{shared_path}/config/puma.rb"
 
 
 # 配置rvm1-capistrano3 如果在服务器上没有安装rvm以及ruby可以通过这个gem自动配置安装。
+# 可以自动创建gemset
 set :rvm1_ruby_version, @ruby_version + (@gemset_name.empty? ? '' : "@#{@gemset_name}")
-# rvm1-capistrano3这个gem的功能，并且该gem可以自动创建gemset
-# 可以安装rvm
-# before 'deploy', 'rvm1:install:rvm'
-# 可以安装ruby
-# before 'deploy', 'rvm1:install:ruby'
 # 配置rvm-auto.sh文件所在的目录
 set :rvm1_auto_script_path, File.expand_path("../", fetch(:deploy_to))
+# 可以自动安装rvm
+# before 'deploy', 'rvm1:install:rvm'
+# 可以安装ruby,安装的ruby版本是rvm1_ruby_version中配置的版本。
+# before 'deploy', 'rvm1:install:ruby'
 
 
 # 执行db/fixtures/*下的任务

@@ -39,7 +39,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 # 是用于编译和服务assets的Ruby库
-# gem 'sprockets', '~> 3.0'
+gem 'sprockets', '~> 3.0'
 
 # 异步队列。
 gem 'sidekiq'
