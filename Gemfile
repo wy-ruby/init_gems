@@ -178,7 +178,8 @@ end
 group :test do
   # 基于机架的Web应用程序的集成测试工具。它模拟用户如何与网站交互
   gem 'capybara', '>= 2.15'
-  gem 'selenium-webdriver'
+  # 模拟用户的行为，与html交互
+  gem "selenium-webdriver"
 
   # 可以更轻松地运行Selenium(浏览器自动测试框架)测试。
   gem 'webdrivers'
@@ -203,9 +204,6 @@ group :test do
 
   # 生成虚假数据
   gem "faker"
-
-  # 模拟用户的行为，与html交互
-  gem "selenium-webdriver"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
