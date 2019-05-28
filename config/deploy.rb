@@ -132,7 +132,7 @@ set :assets_roles, %i[web app]
 
 
 # 配置whenever。capistrano3版本及以上引入whenever的时候带上该命令是可以执行whenever -i的，即更新crontab的配置。
-set :whenever_roles, [:db, :app]
+set :whenever_roles, %i[db]
 set :whenever_load_file, -> { File.join(release_path, 'config', 'schedule.rb') }
 
 

@@ -18,12 +18,11 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
-set :output, 'log/cron_log.log'
+set :output, "#{shared_path}/log/cron_log.log"
 
 every '* * * * *' do
   rake 'practice:whenever_test'
   command "echo 'you can use raw cron syntax too'"
-  command "ruby 'test.rb'"
 end
 
 every :day, at: '5:30pm', roles: [:app] do
