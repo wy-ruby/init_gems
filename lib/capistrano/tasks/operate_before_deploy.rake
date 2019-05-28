@@ -8,8 +8,16 @@ namespace :first_deploy do
         invoke "deploy:check:directories"
         invoke "deploy:check:linked_dirs"
         invoke "deploy:check:make_linked_dirs"
+
         # 上传git中忽略的但是必要的配置文件到要部署的服务器
         invoke "first_deploy:upload_linked_files"
+
+        # 上传puma的配置文件到要部署的服务器,不经常改动就只在第一次部署的时候上传一次。
+        invoke "puma:config"
+
+        # 上传nginx的配置文件到要部署的服务器，不经常改动就只在第一次部署的时候上传一次。
+        invoke "puma:nginx_config"
+
         invoke "deploy:check:linked_files"
       end
     end
@@ -21,10 +29,6 @@ namespace :first_deploy do
       fetch(:linked_files).each do |filename|
         upload! filename, File.expand_path("config", shared_path)
       end
-      # 上传puma的配置文件到要部署的服务器
-      invoke "puma:config"
-      # 上传nginx的配置文件到要部署的服务器
-      invoke "puma:nginx_config"
     end
   end
 
