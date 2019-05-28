@@ -140,7 +140,7 @@ set :whenever_load_file, -> { File.join(release_path, 'config', 'schedule.rb') }
 set :sidekiq_config, "#{shared_path}/config/sidekiq.yml"
 # 设置执行的角色。
 set :sidekiq_roles, %i[app web]
-
+set :output, "#{shared_path}/log/cron_log.log"
 
 # 配置capistrano-puma
 # 上传nginx配置使用命令：cap production puma:nginx_config 是把该gem根据下列的配置生成的配置文件，上传到服务器上的/etc/nginx/sites-enabled/目录下
