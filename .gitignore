@@ -37,5 +37,6 @@
 /config/redis.yml
 /config/puma.rb
 /config/sidekiq.yml
+/config/schedule.rb
 # /config/deploy.rb
 /config/deploy/production.rb

@@ -55,8 +55,9 @@ lock '~> 3.11.0'
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'
 # 在部署期间，列出的文件将从应用程序的共享文件夹(shared)中链接到每个发布目录。可用于持久性配置文件，如database.yml等文件。
 # 注意这里rails是5.2版本的，从这个版本开始，config/secrets.yml变成了config/master.key，即低于5.2版本的话要引入的是secrets.yml,否则会报错。
-# 注意这些手动添加的配置中需要有对应的内容，否则也会报错
-append :linked_files, 'config/database.yml', 'config/application.yml', 'config/redis.yml', 'config/master.key', 'config/sidekiq.yml'
+# 注意这些手动添加的配置中需要有对应的内容，否则也会报错。
+# 把定时任务的schedule.rb文件加入是为了更新定时任务的时候不用执行发布即可。
+append :linked_files, 'config/database.yml', 'config/application.yml', 'config/redis.yml', 'config/master.key', 'config/schedule.rb', 'config/sidekiq.yml'
 
 # 服务器上的ruby版本以及gemset的名字，如果不在服务器上配置gemset的话，@gemset_name可为空字符串。
 @ruby_version = '2.5.1'
@@ -132,7 +133,7 @@ set :assets_roles, %i[web app]
 
 
 # 配置whenever。capistrano3版本及以上引入whenever的时候带上该命令是可以执行whenever -i的，即更新crontab的配置。
-set :whenever_roles, %i[db]
+set :whenever_roles, %i[db app]
 set :whenever_load_file, -> { File.join(release_path, 'config', 'schedule.rb') }
 
 
@@ -140,7 +141,6 @@ set :whenever_load_file, -> { File.join(release_path, 'config', 'schedule.rb') }
 set :sidekiq_config, "#{shared_path}/config/sidekiq.yml"
 # 设置执行的角色。
 set :sidekiq_roles, %i[app web]
-set :output, "#{shared_path}/log/cron_log.log"
 
 # 配置capistrano-puma
 # 上传nginx配置使用命令：cap production puma:nginx_config 是把该gem根据下列的配置生成的配置文件，上传到服务器上的/etc/nginx/sites-enabled/目录下
@@ -208,6 +208,12 @@ namespace :deploy do
         invoke "first_deploy:upload_linked_files"
       end
     end
+  end
+
+  # 由于crontab的更新是执行config/schedule.rb文件，所以每次更新前需要先把该文件上传到shared文件夹下，执行该命令更新。
+  task update_crontab do
+    upload! fetch(:whenever_load_file), File.expand_path("config", shared_path)
+    invoke "whenever:update_crontab"
   end
 
   # 如果是第一次部署需要去创建数据库。
