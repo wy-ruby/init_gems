@@ -131,10 +131,9 @@ set :migration_role, :app
 set :assets_roles, %i[web app]
 
 
-# TODO 配置whenever。capistrano3版本及以上引入whenever的时候带上该命令是可以执行whenever -i的，即更新crontab的配置。
-# set :whenever_identifier, -> { "#{fetch(:application)}_#{fetch(:stage)}" }
-# set :default_env, BUNDLE_GEMFILE: "#{release_path}/Gemfile"
-# set :whenever_load_file, -> { File.join(release_path, 'config', 'schedule.rb') }
+# 配置whenever。capistrano3版本及以上引入whenever的时候带上该命令是可以执行whenever -i的，即更新crontab的配置。
+set :whenever_roles, [:db, :app]
+set :whenever_load_file, -> { File.join(release_path, 'config', 'schedule.rb') }
 
 
 # 配置sidekiq,这里不需要去设置sidekiq的启动或者重启，在capistrano_sidekiq中已经自动执行了。
