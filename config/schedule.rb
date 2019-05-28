@@ -20,7 +20,7 @@
 # Learn more: http://github.com/javan/whenever
 # 可以这样设置全局执行日志
 # set :output, {:error => 'log/cron_error.log', :standard => 'cron_access.log'}
-set :output, File.expand_path(File.dirname(__FILE__) + "../log/whenever.log")
+set :output, "#{shared_path}/log/cron_log.log"
 
 every '* * * * *' do
   rake 'practice:whenever_test'
