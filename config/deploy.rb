@@ -137,7 +137,7 @@ set :assets_roles, %i[web app]
 # set :whenever_load_file, -> { File.join(release_path, 'config', 'schedule.rb') }
 
 
-# TODO 配置sidekiq,这里不需要去设置sidekiq的启动或者重启，在capistrano_sidekiq中已经自动执行了。
+# 配置sidekiq,这里不需要去设置sidekiq的启动或者重启，在capistrano_sidekiq中已经自动执行了。
 set :sidekiq_config, "#{shared_path}/config/sidekiq.yml"
 # 设置执行的角色。
 set :sidekiq_roles, %i[app web]
