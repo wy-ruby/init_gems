@@ -211,8 +211,8 @@ namespace :deploy do
   end
 
   # 由于crontab的更新是执行config/schedule.rb文件，所以每次更新前需要先把该文件上传到shared文件夹下，执行该命令更新。
-  task update_crontab do
-    upload! fetch(:whenever_load_file), File.expand_path("config", shared_path)
+  task :whenever_update_crontab do
+    invoke "first_deploy:upload_linked_files"
     invoke "whenever:update_crontab"
   end
 
