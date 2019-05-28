@@ -26,7 +26,7 @@ every '* * * * *' do
   command "ruby 'test.rb'"
 end
 
-every :day, at: '1:37pm', roles: [:app] do
+every :day, at: '5:30pm', roles: [:app] do
   command "echo '每天运行的，在roles角色为：app下进行的'"
 end
 

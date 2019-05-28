@@ -224,10 +224,4 @@ namespace :deploy do
       end
     end
   end
-
-  # 重启unicorn服务
-  task :restart do
-    invoke 'unicorn:legacy_restart'
-  end
-
 end
