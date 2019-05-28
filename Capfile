@@ -35,7 +35,7 @@ require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
 # require 'whenever/capistrano'
 require 'capistrano/sidekiq'
-# require 'capistrano/sidekiq/monit'
+require 'capistrano/sidekiq/monit'
 # require 'seed-fu/capistrano3'
 
 require 'capistrano/puma'
