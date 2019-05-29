@@ -39,5 +39,3 @@ read_config = YAML::load(ERB.new(IO.read('config/redis.yml')).result)
 REDIS_CONFIG = read_config[Rails.env].deep_symbolize_keys.merge(:driver => :hiredis)
 CACHE_REDIS_CONFIG = REDIS_CONFIG.merge(:db => 2)
 SIDEKIQ_REDIS_CONFIG = REDIS_CONFIG.merge(:db => 1)
-p "-----CACHE_REDIS_CONFIG:--------#{CACHE_REDIS_CONFIG}---------------"
-p "-----SIDEKIQ_REDIS_CONFIG:--------#{SIDEKIQ_REDIS_CONFIG}---------------"
