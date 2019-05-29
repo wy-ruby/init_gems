@@ -69,8 +69,8 @@ Rails.application.configure do
 
   # 配置http缓存
   config.action_dispatch.rack_cache = {
-      metastore: "redis://localhost:6379/1/metastore",
-      entitystore: "redis://localhost:6379/1/entitystore"
+    metastore: "redis://localhost:6379/1/metastore",
+    entitystore: "redis://localhost:6379/1/entitystore"
   }
 
   # Use a real queuing backend for Active Job (and separate queues per environment)

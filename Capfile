@@ -36,7 +36,7 @@ require 'capistrano/rails/migrations'
 require 'whenever/capistrano'
 require 'capistrano/sidekiq'
 # require 'capistrano/sidekiq/monit'
-# require 'seed-fu/capistrano3'
+require 'seed-fu/capistrano3'
 
 require 'capistrano/puma'
 install_plugin Capistrano::Puma  # Default puma tasks

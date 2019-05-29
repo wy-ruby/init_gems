@@ -183,7 +183,8 @@ set :rvm1_auto_script_path, File.expand_path("../", fetch(:deploy_to))
 
 
 # 执行db/fixtures/*下的任务
-# before 'deploy:publishing', 'db:seed_fu'
+# seed文件是位于以下目录： {Rails.root}/db/fixtures 或者 #{Rails.root}/db/fixtures/#{Rails.env}
+before 'deploy:publishing', 'db:seed_fu'
 
 
 # 等发布完成之后把那些没有用到的gem给删除了,这个建议等删除的gem比较多的话再用。
