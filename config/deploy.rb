@@ -169,7 +169,8 @@ set :puma_conf, "#{shared_path}/config/puma.rb"
 # 配置绑定的端口或者sock,支持多绑定如  set :puma_bind, %w(tcp://0.0.0.0:9292 unix:///tmp/puma.sock)
 # 建议使用tcp形式的，unix的可能会在部分服务器上出一定的问题(测试有报过ActionController::InvalidAuthenticityToken错误)。
 set :puma_bind, "tcp://0.0.0.0:8081"
-
+# 配置使用的角色
+set :puma_role, [:app, :web]
 
 # 配置rvm1-capistrano3 如果在服务器上没有安装rvm以及ruby可以通过这个gem自动配置安装。
 # 可以自动创建gemset
