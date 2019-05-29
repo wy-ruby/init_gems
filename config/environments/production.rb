@@ -65,6 +65,7 @@ Rails.application.configure do
 
   # Use a different cache store in production.
   # 配置缓存的存储位置为redis,redis服务器总共可以设置16个数据库，如果没有设置默认是0
+  p "-----SIDEKIQ_REDIS_CONFIG:--------#{SIDEKIQ_REDIS_CONFIG}---------------"
   config.cache_store = :redis_cache_store, CACHE_REDIS_CONFIG.merge({namespace: 'cache', compress: true})
 
   # 配置http缓存
