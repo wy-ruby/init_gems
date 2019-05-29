@@ -27,16 +27,15 @@ module InitGems
   end
 end
 
+# 获取redis的配置信息。
 read_config = YAML::load(ERB.new(IO.read('config/redis.yml')).result)
-if Rails.env.production?
-  sidekiq_config = read_config['sidekiq']
-else
-  sidekiq_config = read_config['local_sidekiq']
-end
 
 # 不使用hiredis
 # REDIS_CONFIG = read_config[Rails.env].deep_symbolize_keys
 # SIDEKIQ_REDIS_CONFIG = sidekiq_config.deep_symbolize_keys
 # 使用hiredis。当有大量回复（例如：lrange、smembers、zrange等）或使用大型管道时，最好使用hiredis。
+# cache、session、http片段缓存用一个单独的redis数据库(编号为2)来保存数据，
+# sidekiq用一个单独的redis数据库(编号为1)，其他的信息再用一个单独的数据库(编号为默认数据看库0)。
 REDIS_CONFIG = read_config[Rails.env].deep_symbolize_keys.merge(:driver => :hiredis)
-SIDEKIQ_REDIS_CONFIG = sidekiq_config.deep_symbolize_keys.merge(:driver => :hiredis)
+CACHE_REDIS_CONFIG = REDIS_CONFIG.merge(:db => 2)
+SIDEKIQ_REDIS_CONFIG = REDIS_CONFIG.merge(:db => 1)

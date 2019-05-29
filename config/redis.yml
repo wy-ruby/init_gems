@@ -11,15 +11,3 @@ production:
   <<: *base
   port: 6378
   password: <%= ENV["REDIS_PASSWORD"] %>
-
-sidekiq:
-  <<: *base
-  port: 6378
-  password: <%= ENV["REDIS_PASSWORD"] %>
-  db: 1
-
-local_sidekiq:
-  <<: *base
-  port: 6379
-  password:
-  db: 1

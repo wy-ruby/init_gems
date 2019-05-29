@@ -65,12 +65,12 @@ Rails.application.configure do
 
   # Use a different cache store in production.
   # 配置缓存的存储位置为redis,redis服务器总共可以设置16个数据库，如果没有设置默认是0
-  config.cache_store = :redis_cache_store, REDIS_CONFIG.merge({namespace: 'cache', compress: true})
+  config.cache_store = :redis_cache_store, CACHE_REDIS_CONFIG.merge({namespace: 'cache', compress: true})
 
   # 配置http缓存
   config.action_dispatch.rack_cache = {
-    metastore: "redis://localhost:6379/1/metastore",
-    entitystore: "redis://localhost:6379/1/entitystore"
+    metastore: CACHE_REDIS_CONFIG.merge({namespace: 'metastore'}),
+    entitystore: CACHE_REDIS_CONFIG.merge({namespace: 'entitystore'})
   }
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
