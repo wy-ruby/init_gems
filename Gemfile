@@ -92,6 +92,12 @@ gem 'bootstrap', '~> 4.3.0'
 # 监控 数据库、redis、Cache、Sidekiq、Resque的状态的工具。
 # gem 'status-page'
 
+# grape 可以帮助我们快速的构建和 Rails 完美融合的 API 接口。
+# gem 'grape'
+
+# 可以为我们的应用加入操作权限控制。
+# gem "pundit"
+
 # 拒绝低版本浏览器的访问，并给其返回一个让其升级的页面。
 gem 'browser_warrior', '>= 0.8.0'
 
