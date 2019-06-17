@@ -96,5 +96,9 @@ Rails.application.configure do
       authentication:       'login',
       enable_starttls_auto: true  }
 
+  # 在本地预编译一定不能运行 Capistrano 部署任务来预编译静态资源,并且要修改下面的配置(默认是/assets文件夹)；
+  config.assets.prefix = "/dev-assets"
+
+
 
 end

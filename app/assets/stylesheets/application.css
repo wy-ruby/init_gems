@@ -9,6 +9,10 @@
  * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
+ * 如果想使用多个 Sass 文件，应该使用 Sass 中的 @import 规则，不要使用 Sprockets 指令。如果使用 Sprockets 指令，
+ * Sass 文件只出现在各自的作用域中，Sass 变量和混入只在定义所在文件中有效。为了达到 require_tree 指令的效果，可以使用通配符，
+ * require_tree . 是把当前目录下所有的css文件(不包含.scss等非.css格式的文件，是因为在config/manifest配置了格式)都引入进来。
+ *
  *
  *= require_tree .
  *= require_self
