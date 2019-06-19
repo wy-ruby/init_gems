@@ -23,8 +23,10 @@ Rails.application.configure do
   # 如果是设置了nginx处理静态文件的话，这个地方就设置false即可。
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
-  # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
+  # Compress JavaScripts and CSS.设置静态资源的压缩方式,下面那种的支持es6语法的解析
+  # config.assets.js_compressor = :uglifier
+  config.assets.js_compressor = Uglifier.new(harmony: true)
+  # 如果 Gemfile 中有 sass-rails，就会自动用来压缩 CSS，无需设置 config.assets.css_compressor 选项。
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
@@ -41,9 +43,10 @@ Rails.application.configure do
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = 'http://assets.example.com'
 
-  # Specifies the header that your server uses for sending files.
+  # X-Sendfile 报头的作用是让服务器忽略程序的响应，直接从硬盘上伺服指定的文件。默认情况下服务器不会发送这个报头，但在支持该
+  # 报头的服务器上可以启用。启用后，会跳过响应直接由服务器伺服文件，速度更快。
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
-  # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
+  config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = :local
