@@ -20,8 +20,13 @@
         <td><%= user.email %></td>
         <td><%= user.age %></td>
         <td><%= user.sex %></td>
-        <td><%= link_to 'Show', user %></td>
-        <td><%= link_to 'Edit', edit_user_path(user) %></td>
+        <!--使用data-turbolinks=false禁用turbolink,禁用后的链接将由浏览器正常处理。-->
+        <td><%= link_to 'Show', user, data: {turbolinks: :false} %></td>
+        <!--这里使用了turbolinks这个gem，配置data-turbolinks-action="replace"，在某个页面设置之后再点击绑定该配置
+        的按钮后，不将该页面添加到页面访问的历史记录项中，所以即使点击浏览器左上角的回退按钮也不会回退到配置的那个页面。
+        如下在edit按钮上配置后，点击进入edit再回退上一步的时候并不会回退到index页面(会返回上上个页面，此时如果再按前进按钮就会
+        重新进入到edit页面，跳过了index页面)，但是其他的没有该配置的按钮可以回退到index-->
+        <td><%= link_to 'Edit', edit_user_path(user), data: {:turbolinks_action => "replace"} %></td>
         <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
