@@ -161,7 +161,7 @@ group :development do
   gem 'derailed_benchmarks'
 
   # 一个文档生成工具
-  gem 'yard', '>= 0.9.11'
+  gem 'yard', '>= 0.9.20'
 
   # 代码质量控制。使用命令： rails_best_practices . 分析。 -h帮助
   gem 'rails_best_practices'
