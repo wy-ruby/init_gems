@@ -28,7 +28,7 @@ gem 'coffee-rails', '~> 4.2'
 # 详情参考链接: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+# 使用生成器生成JSON对象，常见如views/**/xxx.json.jbuilder文件 .详细见: /docs/jbuilder
 gem 'jbuilder', '~> 2.5'
 
 # Use ActiveModel has_secure_password

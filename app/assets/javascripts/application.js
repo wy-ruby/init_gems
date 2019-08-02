@@ -12,7 +12,8 @@
 // rails 的 pipeline 引擎会到逻辑目录里去找这个文件中提到的 js 文件，然后编译到application.js里面去。 但是有
 // 个例外，require_tree不会到逻辑目录里去找，而是只到'app/assets/javascripts'里去找。所以即使你用了requre_tree .,
 // 你还是需要手动将 lib 和 vendor 里需要的 js 文件包含进来。
-// rails指南中也指出了，lib/assets 和 vendor/assets 中的静态资源可以引入程序，但不在预编译的范围内。
+// rails指南中也指出了，lib/assets 和 vendor/assets 中的静态资源可以引入程序（即引入app/assets里面），但不在预编译的范围内
+// （即引入app/assets后，对app/assets中的文件进行编译，也就是说只有引入到app/assets中的文件才能被编译）。
 //
 // 例如，如下的文件：
 // app/assets/javascripts/home.js

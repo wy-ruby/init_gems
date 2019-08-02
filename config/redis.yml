@@ -2,7 +2,12 @@ base: &base
   host: 127.0.0.1
   timeout: 2
 
-development: &development
+development:
+  <<: *base
+  port: 6379
+  password:
+
+test:
   <<: *base
   port: 6379
   password:

@@ -1,7 +1,7 @@
 init_gems
 ---------------
-init_gems是为了节省开发者的安装配置各个常用的gem的时间，并对这些gem进行了一些简单的说明介绍。可以让开发者直接上手使用，    
-并且让你知道它大概是干什么的，并且我这里对其的基本配置已经够用了，想了解或者使用更多的时候可以再细读其文档。    
+　　init_gems是为了节省开发者的安装配置各个常用的gem的时间，并对这些gem进行了一些简单的说明介绍。可以让开发者直接上手使用，并且让你知道
+它大概是干什么的，并且我这里对其的基本配置已经够用了，想了解或者使用更多的时候可以再细读其文档。    
 
 ### 目前已经配置好了的gem：
 1. 发布部署套件：capistrano、capistrano-bundler、capistrano-rails、capistrano-rvm、rvm1-capistrano3、capistrano-sidekiq、capistrano3-puma
@@ -14,7 +14,7 @@ init_gems是为了节省开发者的安装配置各个常用的gem的时间，�
 8. 后续不断的更新……
 
 ### 注意事项：
-1. gem的配置说明文档一般都是放在配置页面，如config/deploy.rb中写的是capistrano及其套件中的说明文档。   　　
+1. gem的配置说明文档一般都是放在配置页面，如config/deploy.rb中写的是capistrano及其套件中的说明文档，还一些是在docs文件夹下。　
 2. 在项目中也有不少只是为了测试或者需要写文档需要而添加的一些文件，如worker/sidekiq_test_worker.rb。    
 3. 这里对涉及敏感的配置文件添加到忽略上了，不过都有对应的xxx.example.xx表示。    
 
