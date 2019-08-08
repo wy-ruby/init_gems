@@ -22,10 +22,11 @@ Rails.application.configure do
   # Apache or NGINX already handles this.true
   # 如果是设置了nginx处理静态文件的话，这个地方就设置false即可。
   # config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  config.public_file_server.enabled = false
 
   # 让Rails伺服静态资源文件。默认值为true，但在生产环境中为false，因为应该使用服务器软件（例如 Nginx 或 Apache）伺服静态资源文件。如果测试
   # 程序，或者在生产环境中使用WEBrick(极力不推荐),应该设为true，否则无法使用页面缓存，请求public文件夹中的文件时也会经由Rails处理。
-  config.serve_static_assets = true
+  # config.serve_static_assets = true
 
   # Compress JavaScripts and CSS.设置静态资源的压缩方式,下面那种的支持es6语法的解析
   # config.assets.js_compressor = :uglifier
@@ -50,7 +51,7 @@ Rails.application.configure do
   # X-Sendfile 报头的作用是让服务器忽略程序的响应，直接从硬盘上伺服指定的文件。默认情况下服务器不会发送这个报头，但在支持该
   # 报头的服务器上可以启用。启用后，会跳过响应直接由服务器伺服文件，速度更快。
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
-  # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
+  config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = :local
