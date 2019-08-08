@@ -65,6 +65,17 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  # 设为 true，启用额外的运行时错误检查。建议在 config/environments/development.rb 中设置，这样可以尽量减少部署到生产环境后的异常表现。
+  config.assets.raise_runtime_errors = true
+
+  # 设置执行 rails console 命令时使用哪个类实现控制台，最好在 console 代码块中设置,并且只有在运行控制台时才调用此块。
+  console do
+    # this block is called only when running console,
+    # so we can safely require pry here
+    require "pry"
+    config.console = Pry
+  end
+
   # 配置email
   # 设置项说明
   # logger	运行邮件程序时生成日志信息。设为 nil 禁用日志。可设为 Ruby 自带的 Logger 或 Log4r 库。

@@ -76,7 +76,7 @@ set :application, 'init_gems'
 # 输入要发布的分支
 # ask(:use_branch, 'master', echo: true)
 # @branch = fetch(:use_branch)
-@branch = 'master'
+@branch = 'develop'
 
 
 # capistrano这个gem本身的参数设置,还包括上面配置的:application以及:linked_dirs和:linked_files这两个数组。

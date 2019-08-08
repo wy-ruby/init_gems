@@ -12,8 +12,8 @@
 // rails 的 pipeline 引擎会到逻辑目录里去找这个文件中提到的 js 文件，然后编译到application.js里面去。 但是有
 // 个例外，require_tree不会到逻辑目录里去找，而是只到'app/assets/javascripts'里去找。所以即使你用了requre_tree .,
 // 你还是需要手动将 lib 和 vendor 里需要的 js 文件包含进来。
-// rails指南中也指出了，lib/assets 和 vendor/assets 中的静态资源可以引入程序（即引入app/assets里面），但不在预编译的范围内
-// （即引入app/assets后，对app/assets中的文件进行编译，也就是说只有引入到app/assets中的文件才能被编译）。
+// rails指南中也指出了，lib/assets(自己的代码库) 和 vendor/assets(一般是第三方库) 中的静态资源可以引入程序（即引入app/assets里面），
+// 但不在预编译的范围内（即引入app/assets后，对app/assets中的文件进行编译，也就是说只有引入到app/assets中的文件才能被编译）。
 //
 // 例如，如下的文件：
 // app/assets/javascripts/home.js
@@ -35,9 +35,9 @@
 // require_self 可以把当前文件中的 CSS 加入调用 require_self 的位置。如果多次调用 require_self，只有最后一次调用有效。
 // Sprockets会按照从上至下的require顺序处理指令，但require_tree引入的文件顺序是不可预期的，不要设想能得到一个期望的顺序，所以
 // 不建议使用。如果要确保某些 avaScript文件出现在其他文件之前，就要先在清单文件中引入。注意，require等指令不会多次加载同一个文件。
-
 //
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
+//= require_self
 //= require_tree .
