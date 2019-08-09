@@ -15,4 +15,4 @@ test:
 production:
   <<: *base
   port: 6378
-  password: <%= ENV["REDIS_PASSWORD"] %>
+  password: <%= Rails.application.credentials[:redis_password] %>

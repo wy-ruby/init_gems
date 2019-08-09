@@ -6,7 +6,7 @@ base: &base
   timeout: 1000
   pool: 5
   username: root
-  password: <%= ENV["DATABASE_PASSWORD"] %>
+  password: <%= Rails.application.credentials[Rails.env.to_sym][:database_password] %>
 
 development:
   <<: *base

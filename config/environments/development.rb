@@ -102,8 +102,8 @@ Rails.application.configure do
       address:              'smtp.163.com',
       port:                 25,
       domain:               'smtp.163.com',
-      user_name:            ENV['EMAIL_USER'],
-      password:             ENV['EMAIL_PASS'],
+      user_name:            Rails.application.credentials[:email_user],
+      password:             Rails.application.credentials[:email_pass],
       authentication:       'login',
       enable_starttls_auto: true  }
 
