@@ -13,7 +13,7 @@ Rails.application.configure do
   config.consider_all_requests_local = true
 
   # Enable/disable caching. By default caching is disabled.
-  # Run rails dev:cache to toggle caching.
+  # 运行命令： rails dev:cache 可以开启文件缓存。
   if Rails.root.join('tmp', 'caching-dev.txt').exist?
     config.action_controller.perform_caching = true
 
@@ -24,13 +24,19 @@ Rails.application.configure do
   else
     config.action_controller.perform_caching = true
     # config.cache_store = :null_store
-    config.cache_store = :redis_cache_store, CACHE_REDIS_CONFIG.merge({namespace: 'cache', compress: true, expires_in: 10.minutes})
+    # config.cache_store = :redis_cache_store, CACHE_REDIS_CONFIG.merge({namespace: 'cache', compress: true, expires_in: 10.minutes})
+    config.cache_store = :redis_store, "redis://localhost:6379/2/cache", { expires_in: 90.minutes }
+    # config.cache_store = :redis_cache_store, {driver: :hiredis, namespace: 'cache', compress: true,
+    #                                           timeout: 1, url: "redis://127.0.0.1:6379/2"}
   end
 
   # 配置http缓存
+  redis_password = CACHE_REDIS_CONFIG[:password].present? ? ":#{CACHE_REDIS_CONFIG[:password]}@": ""
+  metastore_redis_config = "redis://#{redis_password}#{CACHE_REDIS_CONFIG[:host]}:#{CACHE_REDIS_CONFIG[:port]}/#{CACHE_REDIS_CONFIG[:db]}/metastore"
+  entitystore_redis_config = "redis://#{redis_password}#{CACHE_REDIS_CONFIG[:host]}:#{CACHE_REDIS_CONFIG[:port]}/#{CACHE_REDIS_CONFIG[:db]}/entitystore"
   config.action_dispatch.rack_cache = {
-    metastore: CACHE_REDIS_CONFIG.merge({namespace: 'metastore'}),
-    entitystore: CACHE_REDIS_CONFIG.merge({namespace: 'entitystore'})
+    metastore: metastore_redis_config,
+    entitystore: entitystore_redis_config
   }
 
   # Store uploaded files on the local file system (see config/storage.yml for options)

@@ -76,9 +76,12 @@ Rails.application.configure do
   config.cache_store = :redis_cache_store, CACHE_REDIS_CONFIG.merge({namespace: 'cache', compress: true})
 
   # 配置http缓存
+  redis_password = CACHE_REDIS_CONFIG[:password].present? ? ":#{CACHE_REDIS_CONFIG[:password]}@": ""
+  metastore_redis_config = "redis://#{redis_password}#{CACHE_REDIS_CONFIG[:host]}:#{CACHE_REDIS_CONFIG[:port]}/#{CACHE_REDIS_CONFIG[:db]}/metastore"
+  entitystore_redis_config = "redis://#{redis_password}#{CACHE_REDIS_CONFIG[:host]}:#{CACHE_REDIS_CONFIG[:port]}/#{CACHE_REDIS_CONFIG[:db]}/entitystore"
   config.action_dispatch.rack_cache = {
-    metastore: CACHE_REDIS_CONFIG.merge({namespace: 'metastore'}),
-    entitystore: CACHE_REDIS_CONFIG.merge({namespace: 'entitystore'})
+      metastore: metastore_redis_config,
+      entitystore: entitystore_redis_config
   }
 
   # Use a real queuing backend for Active Job (and separate queues per environment)

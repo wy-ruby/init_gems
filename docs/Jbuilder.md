@@ -20,7 +20,14 @@ create  app/views/tests/_test.json.jbuilder
 ```ruby
 rails g jbuilder Test name:string
 ```
-就可以在_test.json.jbuilder文件中看到有name字段的展现了。   
+就可以在_test.json.jbuilder文件中看到有name字段的展现了。    
+
+请求访问数据，可以在路由后面加上.json，例如访问
+```html
+http://localhost:3000/users.json 
+http://localhost:3000/users/1.json  
+```
+
 定义数组并从对象中提取属性放入该数组中：
 ```ruby
 # @people = People.all
@@ -32,7 +39,21 @@ json.array! @users do |item|
   json.name item.name
 end
 # => [{"id":1, "name":"wangyun"}]
+ 
+# 提取方法对象里面的属性 
+json.extract! @users, :id, :name, :email, :age, :sex, :created_at, :updated_at
+# 输出的数据
+{
+  "id": 1,
+  "name": "wangyun",
+  "email": "xxx@qq.com",
+  "age": "18",
+  "sex": false,
+  "created_at": "2019-04-24T02:02:30.000Z",
+  "updated_at": "2019-04-24T02:07:49.000Z",
+}
 ``` 
+
 动态定义属性和结构名：
 ```ruby
 json.set! :author do
