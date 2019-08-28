@@ -3,6 +3,7 @@
 # queues是用来配置队列的，默认对列名是default，如要要配置多个队列的话如下所配置的，后面的数字指的是权重。可以给工作线程指定队列名。
 # staging和production是指所在的环境。
 # 如果发送任务失败会默认进行重试，默认重试25次，当然这个可以通过配置项max_retries进行更改。
+# 注意如果发邮件的时候要使用sidekiq队列的话，需要把mailers(注意：可能其还有前缀)这个对列名加到里面，否则可能会导致邮件无法发送。
 
 ---
 :pidfile: tmp/pids/sidekiq.pid
@@ -10,10 +11,16 @@
 :timeout: 30
 :max_retries: 10
 :concurrency: 30
+development:
+  :concurrency: 20
+  :queues:
+      - development_mailers
 staging:
   :concurrency: 10
 production:
   :concurrency: 30
+  :queues:
+    - production_mailers
 :queues:
   - [critical, 2]
   - default
