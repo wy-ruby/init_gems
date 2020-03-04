@@ -241,7 +241,7 @@ GEM
       slop (~> 3.0)
     psych (3.1.0)
     public_suffix (3.1.0)
-    puma (3.12.1)
+    puma (3.12.4)
     rack (2.0.7)
     rack-cache (1.9.0)
       rack (>= 0.4)
@@ -506,7 +506,7 @@ DEPENDENCIES
   pry-byebug
   pry-rails
   pry-remote
-  puma (~> 3.11)
+  puma (~> 3.12)
   rails (~> 5.2.0)
   rails-i18n (~> 5.0.3)
   rails_best_practices
