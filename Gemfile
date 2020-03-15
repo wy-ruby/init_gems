@@ -25,10 +25,10 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 
 # Turbolinks
-# 详情参考链接: https://github.com/turbolinks/turbolinks
+# 详情参考链接: https://github.com/turbolinks/turbolinks 或者参考docs/Turbolinks.md
 gem 'turbolinks', '~> 5'
 
-# 使用生成器生成JSON对象，常见如views/**/xxx.json.jbuilder文件 .详细见: /docs/jbuilder
+# 使用生成器生成JSON对象，常见如views/**/xxx.json.jbuilder文件 .详细见: /docs/Jbuilder.md
 gem 'jbuilder', '~> 2.5'
 
 # Use ActiveModel has_secure_password
@@ -38,6 +38,7 @@ gem 'bcrypt', '~> 3.1.7'
 # gem 'mini_magick', '~> 4.8'
 
 # Reduces boot times through caching; required in config/boot.rb
+# 使用缓存的方式加快rails应用的启动速度。缓存到tmp/cache目录下，一般是该目录下的bootsnap*文件夹
 gem 'bootsnap', '>= 1.1.0', require: false
 
 # 是用于编译和服务assets的Ruby库
@@ -100,12 +101,20 @@ gem 'bootstrap', '~> 4.3.0'
 # 可以为我们的应用加入操作权限控制。
 # gem "pundit"
 
+# elasticsearch中的apm瓶颈监控工具
+gem 'elastic-apm'
+gem "elasticsearch-model"
+gem "elasticsearch-rails"
+
 # 拒绝低版本浏览器的访问，并给其返回一个让其升级的页面。
 gem 'browser_warrior', '>= 0.8.0'
 
 # 异常监控
 gem 'exception_notification'
 gem 'slack-notifier'
+
+# RPC远程过程调用
+gem 'grpc'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

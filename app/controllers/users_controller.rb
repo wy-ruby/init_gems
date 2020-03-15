@@ -24,6 +24,7 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
+    binding.pry
     @user = User.new(user_params)
 
     respond_to do |format|
@@ -41,6 +42,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+    binding.pry
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
@@ -70,6 +72,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :email, :age, :sex)
+      params.require(:user).permit(:name, :email, :age, :sex, :password, :password_confirmation)
     end
 end

@@ -2,6 +2,15 @@
 
 <h1>Users</h1>
 
+<div>
+  <%= select_date(Time.now + 6.days) %>
+</div>
+<div>
+  <%= distance_of_time_in_words(Time.now, Time.now + 15.seconds, include_seconds: true) %>
+</div>
+<div>
+  <%= select_time(Time.now) %>
+</div>
 <table>
   <thead>
     <tr>

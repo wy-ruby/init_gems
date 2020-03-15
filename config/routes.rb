@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   # sidekiq的路由相关开始
+
   # 注意该路由(/sidekiq/stats)可以看到json格式sidekiq的一些状态信息。
   require 'sidekiq/web'
 
@@ -23,6 +24,7 @@ Rails.application.routes.draw do
   # 使用该api后可以通过路由/queue-status去查询'default'队列积压的情况。如果响应为“uhoh”，就会触发一封电子邮件。
   require 'sidekiq/api'
   match "queue-status" => proc { [200, {"Content-Type" => "text/plain"}, [Sidekiq::Queue.new.size < 100 ? "OK" : "UHOH" ]] }, via: :get
+
   # sidekiq的路由相关结束
 
 end
