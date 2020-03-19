@@ -76,6 +76,9 @@ gem 'seed-fu'
 # 使用yaml文件去安全地配置Rails应用程序，并且可以将配置存储在系统环境变量
 gem 'figaro'
 
+# 上传组件
+# gem "carrierwave"
+
 # rails中使用jquery
 # gem 'jquery-rails'
 
@@ -92,29 +95,57 @@ gem 'bootstrap', '~> 4.3.0'
 # 静态页面相关的gem
 # gem 'high_voltage', '~> 3.0.0'
 
+# 验证码，头像
+# gem "letter_avatar"
+# gem "rucaptcha"
+
 # 监控 数据库、redis、Cache、Sidekiq、Resque的状态的工具。
 # gem 'status-page'
 
 # grape 可以帮助我们快速的构建和 Rails 完美融合的 API 接口。
-# gem 'grape'
-
-# 可以为我们的应用加入操作权限控制。
-# gem "pundit"
+gem 'grape'
 
 # elasticsearch中的apm瓶颈监控工具
-gem 'elastic-apm'
-gem "elasticsearch-model"
-gem "elasticsearch-rails"
+# gem 'elastic-apm'
+# gem "elasticsearch-model"
+# gem "elasticsearch-rails"
+
+# 可以为我们的应用加入操作权限控制。
+gem "pundit"
+# 权限管理这一块或者可以使用下面的这个
+# gem "cancancan"
+
+# 三方平台 OAuth 验证登陆
+gem "omniauth"
+gem "omniauth-github"
+
+# 邮件服务
+# gem "postmark"
+# gem "postmark-rails"
+
+# 用户系统
+gem "devise"
+gem "devise-encryptable"
+
+# 通知系统
+gem "notifications"
+gem "ruby-push-notifications"
 
 # 拒绝低版本浏览器的访问，并给其返回一个让其升级的页面。
-gem 'browser_warrior', '>= 0.8.0'
+# gem 'browser_warrior', '>= 0.8.0'
 
 # 异常监控
-gem 'exception_notification'
-gem 'slack-notifier'
+# gem 'exception_notification'
+# gem 'slack-notifier'
 
 # RPC远程过程调用
-gem 'grpc'
+# gem 'grpc'
+
+# 文档工具
+# gem "sdoc", "~> 1.0.0.rc3"
+
+# 赞、关注、收藏、屏蔽等功能的数据结构
+# gem "action-store"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
