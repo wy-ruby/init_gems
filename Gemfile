@@ -127,10 +127,6 @@ gem "omniauth-github"
 gem "devise"
 gem "devise-encryptable"
 
-# 通知系统
-gem "notifications"
-gem "ruby-push-notifications"
-
 # 拒绝低版本浏览器的访问，并给其返回一个让其升级的页面。
 # gem 'browser_warrior', '>= 0.8.0'
 

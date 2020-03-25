@@ -116,6 +116,7 @@ Rails.application.configure do
   # 在本地预编译一定不能运行 Capistrano 部署任务来预编译静态资源,并且要修改下面的配置(默认是/assets文件夹)；
   config.assets.prefix = "/dev-assets"
 
-
+  # devise这个gem的配置，注意不同的环境配置内容是不同的。
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
 end
