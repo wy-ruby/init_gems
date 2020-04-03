@@ -84,6 +84,7 @@ gem 'figaro'
 
 # 前端ui框架bootstrap
 gem 'bootstrap', '~> 4.3.0'
+# gem 'webpacker'
 
 # 更简单更强大的表单创建。
 # gem 'simple_form', '~> 4.0.0'
@@ -109,6 +110,8 @@ gem 'grape'
 # gem 'elastic-apm'
 # gem "elasticsearch-model"
 # gem "elasticsearch-rails"
+#
+# gem 'searchkick'
 
 # 可以为我们的应用加入操作权限控制。
 gem "pundit"
@@ -118,6 +121,7 @@ gem "pundit"
 # 三方平台 OAuth 验证登陆
 gem "omniauth"
 gem "omniauth-github"
+gem "omniauth-wechat-oauth2"
 
 # 邮件服务
 # gem "postmark"
@@ -142,6 +146,20 @@ gem "devise-encryptable"
 
 # 赞、关注、收藏、屏蔽等功能的数据结构
 # gem "action-store"
+
+# 后台管理
+# gem 'activeadmin'
+# 后台管理的前端UI
+# gem 'arctic_admin'
+
+# 管理配置信息的库。
+# gem "rails-settings-cached", "~> 2.0"
+
+# 一个使用 Ruby 连接和操作 RabbitMQ 的客户端
+# gem "bunny", ">= 2.14.1"
+# 业务通过 Bunny 在 Rails 中简易、快速地生产发布了消息，就需要有消费者来接收和消费消息，Sneakers 是一个处理 RabbitMQ 消息队列的高性能 Ruby 框架
+# gem 'sneakers'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -248,6 +266,9 @@ group :test do
 
   # 生成虚假数据
   gem "faker"
+
+  # 代码覆盖率工具。产生精美的报告。
+  gem 'simplecov', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

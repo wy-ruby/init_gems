@@ -152,6 +152,7 @@ GEM
     devise-encryptable (0.2.0)
       devise (>= 2.1.0)
     diff-lcs (1.3)
+    docile (1.3.2)
     dry-configurable (0.11.4)
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.4, >= 0.4.7)
@@ -221,18 +222,6 @@ GEM
       activesupport (>= 4.2.0)
     json (2.2.0)
     jwt (2.2.1)
-    kaminari (1.2.0)
-      activesupport (>= 4.1.0)
-      kaminari-actionview (= 1.2.0)
-      kaminari-activerecord (= 1.2.0)
-      kaminari-core (= 1.2.0)
-    kaminari-actionview (1.2.0)
-      actionview
-      kaminari-core (= 1.2.0)
-    kaminari-activerecord (1.2.0)
-      activerecord
-      kaminari-core (= 1.2.0)
-    kaminari-core (1.2.0)
     kwalify (0.7.2)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -274,9 +263,6 @@ GEM
     nio4r (2.3.1)
     nokogiri (1.10.3)
       mini_portile2 (~> 2.4.0)
-    notifications (0.6.1)
-      kaminari (>= 0.15)
-      rails (>= 5)
     oauth2 (1.4.4)
       faraday (>= 0.8, < 2.0)
       jwt (>= 1.0, < 3.0)
@@ -292,6 +278,9 @@ GEM
     omniauth-oauth2 (1.6.0)
       oauth2 (~> 1.1)
       omniauth (~> 1.9)
+    omniauth-wechat-oauth2 (0.1.2)
+      omniauth (>= 1.3.2)
+      omniauth-oauth2 (>= 1.1.1)
     orm_adapter (0.5.0)
     parallel (1.17.0)
     parser (2.6.3.0)
@@ -431,8 +420,6 @@ GEM
     rubocop-rspec (1.30.0)
       rubocop (>= 0.58.0)
     ruby-progressbar (1.10.0)
-    ruby-push-notifications (1.3.0)
-      builder (~> 3.0)
     ruby2_keywords (0.0.2)
     ruby_dep (1.5.0)
     ruby_parser (3.13.1)
@@ -484,6 +471,10 @@ GEM
       rack (>= 1.5.0)
       rack-protection (>= 1.5.0)
       redis (>= 3.3.5, < 5)
+    simplecov (0.18.5)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+    simplecov-html (0.12.2)
     slop (3.6.0)
     spring (2.0.2)
       activesupport (>= 4.2)
@@ -585,9 +576,9 @@ DEPENDENCIES
   listen (>= 3.0.5, < 3.2)
   meta_request
   mysql2
-  notifications
   omniauth
   omniauth-github
+  omniauth-wechat-oauth2
   pry
   pry-byebug
   pry-rails
@@ -609,13 +600,13 @@ DEPENDENCIES
   rspec-support
   rubocop (~> 0.58.2)
   rubocop-rspec (~> 1.29)
-  ruby-push-notifications
   rubycritic
   rvm1-capistrano3
   sass-rails (~> 5.0)
   seed-fu
   selenium-webdriver
   sidekiq
+  simplecov
   spring
   spring-watcher-listen (~> 2.0.0)
   sprockets (~> 3.0)
