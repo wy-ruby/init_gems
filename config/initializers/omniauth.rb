@@ -1,7 +1,6 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
   # provider :developer unless Rails.env.production?
-  # provider :twitter, ENV['TWITTER_KEY'], ENV['TWITTER_SECRET']
-  provider :github, "9211bd36de0022424ad1", "20a49a878ce7070567da6f7732fc72b8a571cbe7", {scope: "user,repo,gist",
-           :provider_ignores_state => true}
-  provider :wechat, ENV["WECHAT_APP_ID"], ENV["WECHAT_APP_SECRET"]
+  # provider :github, "9211bd36de0022424ad1", "b0c483a5233b192d8547034d1836dfb39a1e4f5e", {scope: "user,repo,gist"}
+  # provider :wechat, "9211bd36de0022424ad1", "b0c483a5233b192d8547034d1836dfb39a1e4f5e", {scope: "user,repo,gist"}
+  # on_failure { |env| AuthenticationsController.action(:failure).call(env) }
 end

@@ -24,6 +24,24 @@ module InitGems
     # 默认队列名称的连接前缀是"_",可以使用下面的方法修改。
     # config.active_job.queue_name_delimiter = '.'
 
+    # 配置i18n的默认语言
+    config.i18n.default_locale = "zh-CN"
+
+    # 添加一个中间件，这个是处理i18n的区域设置的时候，根据用户的语言偏好获取http首部。使用rack-contrib gem。
+    config.middleware.use Rack::Locale
+
+    # rails应用如果版本大于5.1默认使用这个，注释即可，否则需要启用。使用rack-attack gem。
+    # config.middleware.use Rack::Attack
+
+    # 配置数据库的时间以及 +Rails+ 显示的时间都为本地时区的时间。
+    # time_zone 配置的作用，是在 ActiveRecord 中取时间的时候，将 UTC 时间转换成 Local 时间，也就是通过 created_at 等方法获取到的将
+    # 直接是转换后的 Local 时间，当然如果本身存储在 DB 中的时间就是 Local 时间那么就不转换。存储在 DB 中的时间仍然是 UTC 时间，要想更改
+    # 这个存储在 DB 中的时间需要配置下面的 default_timezone 选项。
+    # 对于中国地区来说，该选项设置成 Beijing 就可以了。
+    config.time_zone = 'Beijing'
+    # 这个 default_timezone 是决定 active_record 对数据库交互的时区设置，也就是影响 created_at 和 updated_at 在数据库的记录时间。
+    # 只有两个参数:utc 和:local，rails 初始化时默认是 utc，所以保存到数据库的时间是 utc 时间。
+    config.active_record.default_timezone = :local
   end
 end
 

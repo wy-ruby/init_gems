@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_23_103432) do
+ActiveRecord::Schema.define(version: 2020_04_08_071730) do
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", comment: "用户名"
@@ -36,6 +36,9 @@ ActiveRecord::Schema.define(version: 2020_03_23_103432) do
     t.integer "failed_attempts", default: 0, null: false, comment: "失败次数"
     t.string "unlock_token", comment: "解锁token"
     t.datetime "locked_at", comment: "锁定时间"
+    t.string "provider", comment: "三方登录提供商"
+    t.string "uid", comment: "授权用户的uid"
+    t.string "image", comment: "授权用户的头像地址"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

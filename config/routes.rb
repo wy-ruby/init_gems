@@ -1,16 +1,75 @@
+# == Route Map
+#
+#                         Prefix Verb     URI Pattern                                                                              Controller#Action
+#               new_user_session GET      /users/sign_in(.:format)                                                                 users/sessions#new
+#                   user_session POST     /users/sign_in(.:format)                                                                 users/sessions#create
+#           destroy_user_session DELETE   /users/sign_out(.:format)                                                                users/sessions#destroy
+# user_github_omniauth_authorize GET|POST /users/auth/github(.:format)                                                             users/omniauth_callbacks#passthru
+#  user_github_omniauth_callback GET|POST /users/auth/github/callback(.:format)                                                    users/omniauth_callbacks#github
+# user_wechat_omniauth_authorize GET|POST /users/auth/wechat(.:format)                                                             users/omniauth_callbacks#passthru
+#  user_wechat_omniauth_callback GET|POST /users/auth/wechat/callback(.:format)                                                    users/omniauth_callbacks#wechat
+#              new_user_password GET      /users/password/new(.:format)                                                            users/passwords#new
+#             edit_user_password GET      /users/password/edit(.:format)                                                           users/passwords#edit
+#                  user_password PATCH    /users/password(.:format)                                                                users/passwords#update
+#                                PUT      /users/password(.:format)                                                                users/passwords#update
+#                                POST     /users/password(.:format)                                                                users/passwords#create
+#       cancel_user_registration GET      /users/cancel(.:format)                                                                  users/registrations#cancel
+#          new_user_registration GET      /users/sign_up(.:format)                                                                 users/registrations#new
+#         edit_user_registration GET      /users/edit(.:format)                                                                    users/registrations#edit
+#              user_registration PATCH    /users(.:format)                                                                         users/registrations#update
+#                                PUT      /users(.:format)                                                                         users/registrations#update
+#                                DELETE   /users(.:format)                                                                         users/registrations#destroy
+#                                POST     /users(.:format)                                                                         users/registrations#create
+#          new_user_confirmation GET      /users/confirmation/new(.:format)                                                        users/confirmations#new
+#              user_confirmation GET      /users/confirmation(.:format)                                                            users/confirmations#show
+#                                POST     /users/confirmation(.:format)                                                            users/confirmations#create
+#                new_user_unlock GET      /users/unlock/new(.:format)                                                              users/unlocks#new
+#                    user_unlock GET      /users/unlock(.:format)                                                                  users/unlocks#show
+#                                POST     /users/unlock(.:format)                                                                  users/unlocks#create
+#             authenticated_root GET      /                                                                                        static_pages#home
+#           unauthenticated_root GET      /                                                                                        users/sessions#new
+#                          users GET      /users(.:format)                                                                         users#index
+#                                POST     /users(.:format)                                                                         users#create
+#                       new_user GET      /users/new(.:format)                                                                     users#new
+#                      edit_user GET      /users/:id/edit(.:format)                                                                users#edit
+#                           user GET      /users/:id(.:format)                                                                     users#show
+#                                PATCH    /users/:id(.:format)                                                                     users#update
+#                                PUT      /users/:id(.:format)                                                                     users#update
+#                                DELETE   /users/:id(.:format)                                                                     users#destroy
+#                    sidekiq_web          /sidekiq                                                                                 Sidekiq::Web
+#                   queue_status GET      /queue-status(.:format)                                                                  #<Proc:0x00007fb24cd8bb88@/Users/poly/www/ruby/init_gems/config/routes.rb:87>
+#             rails_service_blob GET      /rails/active_storage/blobs/:signed_id/*filename(.:format)                               active_storage/blobs#show
+#      rails_blob_representation GET      /rails/active_storage/representations/:signed_blob_id/:variation_key/*filename(.:format) active_storage/representations#show
+#             rails_disk_service GET      /rails/active_storage/disk/:encoded_key/*filename(.:format)                              active_storage/disk#show
+#      update_rails_disk_service PUT      /rails/active_storage/disk/:encoded_token(.:format)                                      active_storage/disk#update
+#           rails_direct_uploads POST     /rails/active_storage/direct_uploads(.:format)                                           active_storage/direct_uploads#create
+
 Rails.application.routes.draw do
   # get 'sessions/create'
-  # devise_for :users
-  root 'static_pages#home'
-  resources :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-
-  devise_for :users, controllers: {
-      sessions: 'users/sessions'
+  # root 'static_pages#home'
+  devise_for :users, module: :users, path_names: {
+    sign_in:  'login',
+    sign_out: 'logout',
+    sign_up:  'register'
   }
 
-  get '/auth/:provider/callback', to: 'sessions#create'
+  devise_scope :user do
+    get 'users/logout', to: "users/sessions#destroy"
+    # 登录后的主页变成了 static_pages#home
+    authenticated :user do
+      root 'static_pages#home', as: :authenticated_root
+    end
 
+    # 未登录的话就跳转到登录首页，也就是users/session#new
+    unauthenticated do
+      root 'users/sessions#new', as: :unauthenticated_root
+    end
+  end
+
+  resources :users
+
+  # get "/auth/:action/callback", :controller => "authentications", :constraints => { :action => /wechat|github/ }
+  # get "/auth/:provider/callback" => "authentications#github"
   # sidekiq的路由相关开始
   # 注意该路由(/sidekiq/stats)可以看到json格式sidekiq的一些状态信息。
   require 'sidekiq/web'

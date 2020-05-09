@@ -34,6 +34,9 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
+# 处理跨域问题
+# gem 'rack-cors'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
@@ -103,8 +106,8 @@ gem 'bootstrap', '~> 4.3.0'
 # 监控 数据库、redis、Cache、Sidekiq、Resque的状态的工具。
 # gem 'status-page'
 
-# grape 可以帮助我们快速的构建和 Rails 完美融合的 API 接口。
-gem 'grape'
+# paper_trail 跟踪对模型的更改，以进行审核或版本控制。
+# gem 'paper_trail'
 
 # elasticsearch中的apm瓶颈监控工具
 # gem 'elastic-apm'
@@ -113,8 +116,14 @@ gem 'grape'
 #
 # gem 'searchkick'
 
+# 用户系统
+gem "devise"
+gem "devise-encryptable"
+
 # 可以为我们的应用加入操作权限控制。
 gem "pundit"
+# 搭配devise、pundit使用，添加role对权限更加精细化的操作，比如实现RBAC权限管理。
+gem "rolify"
 # 权限管理这一块或者可以使用下面的这个
 # gem "cancancan"
 
@@ -123,19 +132,32 @@ gem "omniauth"
 gem "omniauth-github"
 gem "omniauth-wechat-oauth2"
 
+# 使用JWT实现Token认证
+gem 'jwt', '~> 2.1'
+
+# grape 可以帮助我们快速的构建和 Rails 完美融合的 API 接口。
+gem 'grape'
+gem 'grape-entity'
+gem 'grape-swagger'
+gem 'grape-swagger-entity'
+gem 'grape-swagger-rails'
+gem 'grape_logging'
+gem 'grape_on_rails_routes'
+
+# GraphQL一种用于 API 的查询语言
+gem 'graphql', '~> 1.9'
+
 # 邮件服务
 # gem "postmark"
 # gem "postmark-rails"
 
-# 用户系统
-gem "devise"
-gem "devise-encryptable"
-
 # 拒绝低版本浏览器的访问，并给其返回一个让其升级的页面。
 # gem 'browser_warrior', '>= 0.8.0'
 
-# 异常监控
+# 异常监控通知
 # gem 'exception_notification'
+# 在后台管理页面显示异常信息
+# gem 'exception-track'
 # gem 'slack-notifier'
 
 # RPC远程过程调用
@@ -157,9 +179,23 @@ gem "devise-encryptable"
 
 # 一个使用 Ruby 连接和操作 RabbitMQ 的客户端
 # gem "bunny", ">= 2.14.1"
-# 业务通过 Bunny 在 Rails 中简易、快速地生产发布了消息，就需要有消费者来接收和消费消息，Sneakers 是一个处理 RabbitMQ 消息队列的高性能 Ruby 框架
+# 业务通过 Bunny 在 Rails 中简易、快速地生产发布了消息，就需要有消费者来接收和消费消息，
+# Sneakers 是一个处理 RabbitMQ 消息队列的高性能 Ruby 框架
 # gem 'sneakers'
 
+# aasm ruby类的状态机（支持普通Ruby，ActiveRecord，Mongoid）
+# gem 'aasm'
+
+# 一些使用rack协议编写的小工具。
+gem "rack-contrib"
+
+# 保护你的应用免收不良客户端的请求的拦截器。
+gem "rack-attack"
+
+# bugsnageRuby的Bugsnag异常报告器会立即通知您从Rails，Sinatra，Rack或纯Ruby应用程序引发的异常。
+# 任何未捕获的异常都会触发通知，该通知将发送到您的Bugsnag项目。
+gem "bugsnag", "~> 6.12"
+gem "uniform_notifier"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -169,6 +205,21 @@ group :development, :test do
   gem 'letter_opener'
 
   gem 'factory_bot_rails'
+
+  # BDD 行为驱动开发
+  # gem 'cucumber'
+  # gem 'cucumber-rails', require: false
+  # gem 'cucumber-api-steps', require: false
+
+  # faker生成伪数据。
+  # gem 'faker'
+
+  # 一个提供“时间旅行”和“时间冻结”功能的gem，使测试依赖于时间的代码变得非常简单。它提供了
+  # 一个统一的方法，可以在单个调用中模拟Time.now，Date.today和DateTime.now。
+  # gem 'timecop'
+
+  # 生成文档工具
+  # gem 'sdoc'
 end
 
 group :development do
@@ -206,8 +257,10 @@ group :development do
   gem 'rubycritic', require: false
 
   # 代码风格指南工具。具体使用,在根目录输入命令 rubocop -h 查看即可。 rubocop ./config/deploy
-  gem 'rubocop', '~> 0.58.2', require: false
-  gem 'rubocop-rspec', '~> 1.29', require: false
+  gem 'rubocop', '~> 0.81.0', require: false
+  gem 'rubocop-rspec', require: false
+  gem 'rubocop-performance'
+  gem 'rubocop-rails', require: false
 
   # 检测你的gem使用情况。命令：  bundle exec derailed bundle:mem   使用derailed -h查看可用命令
   gem 'derailed'
@@ -235,6 +288,15 @@ group :development do
 
   # 帮助解决rails的N+1问题
   gem "bullet"
+
+  # 在Rails应用程序中安装GraphiQL查询编辑器
+  # gem 'graphiql-rails', '~> 1.7.0'
+
+  # 在日志中写入请求源信息
+  gem 'active_record_query_trace'
+
+  # 在应用的每个页面底部显示请求信息，并链接到源码（可通过 TextMate 打开）；
+  # gem 'rails-footnotes', '~> 4.0'
 end
 
 group :test do
@@ -250,8 +312,6 @@ group :test do
   gem 'database_cleaner'
 
   gem 'launchy'
-  # 提供“时间旅行”和“时间冻结”功能的gem，使测试依赖时间的代码变得非常简单。
-  gem 'timecop'
 
   # 配置测试需要的数据
   gem 'webmock'
@@ -263,6 +323,7 @@ group :test do
   gem 'rspec-mocks'
   gem 'rspec-rails'
   gem 'rspec-support'
+  gem 'rspec-sidekiq'
 
   # 生成虚假数据
   gem "faker"

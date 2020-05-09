@@ -21,7 +21,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+  config.mailer_sender = Rails.application.credentials[:email_user]
 
   # 配置负责发送电子邮件的类，默认使用Devise::Mailer
   # Configure the class responsible to send e-mails.
@@ -292,7 +292,8 @@ Devise.setup do |config|
   # 配置OmniAuth供应商
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
+  config.omniauth :github, '9211bd36de0022424ad1', 'b0c483a5233b192d8547034d1836dfb39a1e4f5e', scope: "user,repo,gist"
+  config.omniauth :wechat, '9211bd36de0022424ad1', 'b0c483a5233b192d8547034d1836dfb39a1e4f5e'
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
