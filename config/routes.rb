@@ -70,6 +70,10 @@ Rails.application.routes.draw do
 
   # get "/auth/:action/callback", :controller => "authentications", :constraints => { :action => /wechat|github/ }
   # get "/auth/:provider/callback" => "authentications#github"
+
+  # 匹配未定义的路由到 application下的route_not_found 方法中。
+  get '*unmatched_route', to: 'application#route_not_found'
+
   # sidekiq的路由相关开始
   # 注意该路由(/sidekiq/stats)可以看到json格式sidekiq的一些状态信息。
   require 'sidekiq/web'

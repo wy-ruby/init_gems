@@ -153,4 +153,42 @@ Rails.application.configure do
       enable_starttls_auto: true  }
 
 
+  # 配置 lograge 的支持。一般是在生产环境下配置的。
+  config.lograge.enabled = true
+  # 可以添加自定义内容。
+  config.lograge.custom_options = lambda do |event|
+    { time: Time.now.strftime("%Y-%m-%d %H:%M:%S"), host: event.payload[:host]}
+  end
+  # 可以添加一个钩子以直接访问控制器方法（例如request和current_user）。 该哈希将自动合并到日志数据中。
+  config.lograge.custom_payload do |controller|
+    {
+        protocol: controller.request.protocol.match(/([a-zA-Z]*)/)[0].to_s
+    }
+  end
+  # 保持rails原本的日志信息
+  # config.lograge.keep_original_rails_log = true
+  # config.lograge.logger = ActiveSupport::Logger.new "#{Rails.root}/log/lograge_#{Rails.env}.log"
+
+  # 为了进一步清理日志，您还可以告诉Lograge跳过满足给定条件的日志消息。您可以跳过某些控制器操作生成的日志消息，也可以编写自定义处理程序以根据
+  # 日志事件中的数据跳过消息：
+  # config.lograge.ignore_actions = ['HomeController#index', 'AController#an_action']
+  # config.lograge.ignore_custom = lambda do |event|
+  #   return true here if you want to ignore based on the event
+  # end
+
+  # Lograge支持多种输出格式。 最常见的是上述默认Lograge键值格式。 另外，您还可以生成Logstash使用的json_event格式的JSON日志。
+  # 使用logstash输出时，需要添加  gem logstash-event
+  # config.lograge.formatter = Lograge::Formatters::Logstash.new
+  #
+  # 可用的日志格式有：
+  # Lograge::Formatters::Lines.new
+  # Lograge::Formatters::Cee.new
+  # Lograge::Formatters::Graylog2.new
+  # Lograge::Formatters::KeyValue.new  # lograge 的默认格式
+  # Lograge::Formatters::Json.new
+  # Lograge::Formatters::Logstash.new
+  # Lograge::Formatters::LTSV.new
+  # Lograge::Formatters::Raw.new       # 返回一个ruby的哈希对象
+  # 除了格式化程序，您还可以通过传递一个响应#call的对象来自己操作数据：
+  # config.lograge.formatter = ->(data) { "Called #{data[:controller]}" } # data is a ruby hash
 end

@@ -133,7 +133,9 @@ gem "omniauth-github"
 gem "omniauth-wechat-oauth2"
 
 # 使用JWT实现Token认证
-gem 'jwt', '~> 2.1'
+gem 'jwt'
+# 符合 JWT (JSON Web Token) 规范的认证 API
+gem 'knock'
 
 # grape 可以帮助我们快速的构建和 Rails 完美融合的 API 接口。
 gem 'grape'
@@ -162,6 +164,9 @@ gem 'graphql', '~> 1.9'
 
 # RPC远程过程调用
 # gem 'grpc'
+
+# 用于处理跨域资源共享（CORS）的机架中间件，这使得跨域AJAX成为可能。
+# gem 'rack-cors'
 
 # 文档工具
 # gem "sdoc", "~> 1.0.0.rc3"
@@ -197,6 +202,20 @@ gem "rack-attack"
 gem "bugsnag", "~> 6.12"
 gem "uniform_notifier"
 
+# URL 友好的 ID，可以把一些不想暴露的url地址中的信息给使用id替代掉。
+gem 'friendly_id'
+
+# 所见即所得编辑器
+gem 'ckeditor'
+
+# 改变 rails 默认的日志，使变得更好。更简洁且高效的显示日志内容。
+gem "lograge"
+# Logstash与Beats，Elasticsearch和Kibana一起是Elastic Stack的一部分。
+# Logstash是服务器端数据处理管道，它同时从多个源中提取数据，进行转换，然后将其发送到您喜欢的“stash”。
+gem 'logstash-event'
+
+# 状态机
+gem  'aasm'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -219,11 +238,11 @@ group :development, :test do
   # gem 'timecop'
 
   # 生成文档工具
-  # gem 'sdoc'
+  gem 'sdoc'
 end
 
 group :development do
-  # web-console是RubyonRails应用程序的调试工具,报错的时候可以调试的。
+  # web-console是RubyonRails应用程序在浏览器上的调试工具,报错的时候可以调试的。
   gem 'web-console', '>= 3.3.0'
 
   # 监听文件变动，并你去通知修改
@@ -295,8 +314,8 @@ group :development do
   # 在日志中写入请求源信息
   gem 'active_record_query_trace'
 
-  # 在应用的每个页面底部显示请求信息，并链接到源码（可通过 TextMate 打开）；
-  # gem 'rails-footnotes', '~> 4.0'
+  # 给你的MacOS的发送通知消息
+  # gem 'terminal-notifier'
 end
 
 group :test do

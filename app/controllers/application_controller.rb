@@ -65,6 +65,17 @@ class ApplicationController < ActionController::Base
     # 参考：https://github.com/rack/rack-contrib/blob/master/lib/rack/contrib/locale.rb
   end
 
+  # 定义日志中要额外添加保存的信息，信息放在 event.payload 的哈希中，可以在 config/environments/* 配置中添加的 custom_options 选项获取。
+  def append_info_to_payload(payload)
+    super
+    payload[:host] = request.host
+  end
+
+  # 处理不存在的路由信息。
+  def route_not_found
+    render file: 'public/404', status: 404
+  end
+
   private
 
     # 自定义全局用户无权限操作的时候的处理方法
