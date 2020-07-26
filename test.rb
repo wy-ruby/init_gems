@@ -1,29 +1,17 @@
-class Person
-  public
-  def call_method_protected
-   puts self.my_protected_method
+class A
+  def fred
+    puts "In Fred"
   end
-
-  def call_method_private
-    puts self.my_private_method
+  def create_method(name, &block)
+    self.class.send(:define_method, name, &block)
   end
-
-  def my_public_method
-     'I am a public method'
-  end
-
-  protected
-    def my_protected_method
-      'I am a protected method'
-    end
-
-  private
-    def my_private_method
-      'I am a private method'
-    end
+  define_method(:wilma) { puts "Charge it!" }
 end
-
-person2 = Person.new
-
-person2.call_method_protected
-person2.call_method_private
+class B < A
+  define_method(:barney, instance_method(:fred))
+end
+a = B.new
+a.barney
+a.wilma
+a.create_method(:betty) { p self }
+a.betty

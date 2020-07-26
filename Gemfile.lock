@@ -76,6 +76,11 @@ GEM
       popper_js (>= 1.14.3, < 2)
       sassc-rails (>= 2.0.0)
     brakeman (4.8.1)
+    browser (4.2.0)
+    browser_warrior (0.14.0)
+      browser (>= 4.0, < 5)
+      rails (>= 5.0, < 7)
+      sass-rails
     bugsnag (6.13.0)
       concurrent-ruby (~> 1.0)
     builder (3.2.4)
@@ -597,6 +602,7 @@ DEPENDENCIES
   bootsnap (>= 1.1.0)
   bootstrap (~> 4.3.0)
   brakeman
+  browser_warrior (>= 0.8.0)
   bugsnag (~> 6.12)
   bullet
   byebug

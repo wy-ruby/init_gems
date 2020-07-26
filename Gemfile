@@ -154,7 +154,7 @@ gem 'graphql', '~> 1.9'
 # gem "postmark-rails"
 
 # 拒绝低版本浏览器的访问，并给其返回一个让其升级的页面。
-# gem 'browser_warrior', '>= 0.8.0'
+gem 'browser_warrior', '>= 0.8.0'
 
 # 异常监控通知
 # gem 'exception_notification'

@@ -159,7 +159,7 @@ Rails.application.configure do
   config.lograge.custom_options = lambda do |event|
     { time: Time.now.strftime("%Y-%m-%d %H:%M:%S"), host: event.payload[:host]}
   end
-  # 可以添加一个钩子以直接访问控制器方法（例如request和current_user）。 该哈希将自动合并到日志数据中。
+  # 可以添加一个钩子以直接访问控制器方法（例如request和current_user）该哈希将自动合并到日志数据中。
   config.lograge.custom_payload do |controller|
     {
         protocol: controller.request.protocol.match(/([a-zA-Z]*)/)[0].to_s

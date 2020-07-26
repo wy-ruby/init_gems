@@ -1,9 +1,9 @@
 # == Route Map
 #
 #                         Prefix Verb     URI Pattern                                                                              Controller#Action
-#               new_user_session GET      /users/sign_in(.:format)                                                                 users/sessions#new
-#                   user_session POST     /users/sign_in(.:format)                                                                 users/sessions#create
-#           destroy_user_session DELETE   /users/sign_out(.:format)                                                                users/sessions#destroy
+#               new_user_session GET      /users/login(.:format)                                                                   users/sessions#new
+#                   user_session POST     /users/login(.:format)                                                                   users/sessions#create
+#           destroy_user_session DELETE   /users/logout(.:format)                                                                  users/sessions#destroy
 # user_github_omniauth_authorize GET|POST /users/auth/github(.:format)                                                             users/omniauth_callbacks#passthru
 #  user_github_omniauth_callback GET|POST /users/auth/github/callback(.:format)                                                    users/omniauth_callbacks#github
 # user_wechat_omniauth_authorize GET|POST /users/auth/wechat(.:format)                                                             users/omniauth_callbacks#passthru
@@ -14,7 +14,7 @@
 #                                PUT      /users/password(.:format)                                                                users/passwords#update
 #                                POST     /users/password(.:format)                                                                users/passwords#create
 #       cancel_user_registration GET      /users/cancel(.:format)                                                                  users/registrations#cancel
-#          new_user_registration GET      /users/sign_up(.:format)                                                                 users/registrations#new
+#          new_user_registration GET      /users/register(.:format)                                                                users/registrations#new
 #         edit_user_registration GET      /users/edit(.:format)                                                                    users/registrations#edit
 #              user_registration PATCH    /users(.:format)                                                                         users/registrations#update
 #                                PUT      /users(.:format)                                                                         users/registrations#update
@@ -26,6 +26,7 @@
 #                new_user_unlock GET      /users/unlock/new(.:format)                                                              users/unlocks#new
 #                    user_unlock GET      /users/unlock(.:format)                                                                  users/unlocks#show
 #                                POST     /users/unlock(.:format)                                                                  users/unlocks#create
+#                   users_logout GET      /users/logout(.:format)                                                                  users/sessions#destroy
 #             authenticated_root GET      /                                                                                        static_pages#home
 #           unauthenticated_root GET      /                                                                                        users/sessions#new
 #                          users GET      /users(.:format)                                                                         users#index
@@ -37,7 +38,8 @@
 #                                PUT      /users/:id(.:format)                                                                     users#update
 #                                DELETE   /users/:id(.:format)                                                                     users#destroy
 #                    sidekiq_web          /sidekiq                                                                                 Sidekiq::Web
-#                   queue_status GET      /queue-status(.:format)                                                                  #<Proc:0x00007fb24cd8bb88@/Users/poly/www/ruby/init_gems/config/routes.rb:87>
+#                   queue_status GET      /queue-status(.:format)                                                                  #<Proc:0x00007ff15863dbd8@(eval):19>
+#                                GET      /*unmatched_route(.:format)                                                              application#route_not_found
 #             rails_service_blob GET      /rails/active_storage/blobs/:signed_id/*filename(.:format)                               active_storage/blobs#show
 #      rails_blob_representation GET      /rails/active_storage/representations/:signed_blob_id/:variation_key/*filename(.:format) active_storage/representations#show
 #             rails_disk_service GET      /rails/active_storage/disk/:encoded_key/*filename(.:format)                              active_storage/disk#show
@@ -45,55 +47,21 @@
 #           rails_direct_uploads POST     /rails/active_storage/direct_uploads(.:format)                                           active_storage/direct_uploads#create
 
 Rails.application.routes.draw do
-  # get 'sessions/create'
-  # root 'static_pages#home'
-  devise_for :users, module: :users, path_names: {
-    sign_in:  'login',
-    sign_out: 'logout',
-    sign_up:  'register'
-  }
-
-  devise_scope :user do
-    get 'users/logout', to: "users/sessions#destroy"
-    # 登录后的主页变成了 static_pages#home
-    authenticated :user do
-      root 'static_pages#home', as: :authenticated_root
-    end
-
-    # 未登录的话就跳转到登录首页，也就是users/session#new
-    unauthenticated do
-      root 'users/sessions#new', as: :unauthenticated_root
-    end
+  def draw(routes_name)
+    instance_eval(File.read(Rails.root.join("config/routes/#{routes_name}.rb")))
   end
+
+  # 配置 +devise+ 相关的路由
+  draw :devise
 
   resources :users
 
-  # get "/auth/:action/callback", :controller => "authentications", :constraints => { :action => /wechat|github/ }
-  # get "/auth/:provider/callback" => "authentications#github"
+  # 配置 +sidekiq+ 相关的路由
+  draw :sidekiq
+
+  # 配置 +api+ 相关的路由
+  draw :api
 
   # 匹配未定义的路由到 application下的route_not_found 方法中。
   get '*unmatched_route', to: 'application#route_not_found'
-
-  # sidekiq的路由相关开始
-  # 注意该路由(/sidekiq/stats)可以看到json格式sidekiq的一些状态信息。
-  require 'sidekiq/web'
-
-  # 配置sidekiq ui登录的权限，更高级配置可以看文档。
-  Sidekiq::Web.use Rack::Auth::Basic do |username, password|
-    ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(username.to_s), ::Digest::SHA256.hexdigest('admin')) &
-        ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(password.to_s), ::Digest::SHA256.hexdigest('123456'))
-  end
-  mount Sidekiq::Web => '/sidekiq'
-
-  # 如果提交表单的时候返回了一个Forbidden错误的话，在rails5.2及以上的版本中进行这样配置。
-  Sidekiq::Web.set :session_secret, Rails.application.credentials[:secret_key_base]
-
-  # 如果使用ui的时候session被覆盖重写的话，添加这行命令。
-  Sidekiq::Web.set :sessions, false
-
-  # 使用该api后可以通过路由/queue-status去查询'default'队列积压的情况。如果响应为“uhoh”，就会触发一封电子邮件。
-  require 'sidekiq/api'
-  match "queue-status" => proc { [200, {"Content-Type" => "text/plain"}, [Sidekiq::Queue.new.size < 100 ? "OK" : "UHOH" ]] }, via: :get
-  # sidekiq的路由相关结束
-
 end
