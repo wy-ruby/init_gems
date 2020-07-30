@@ -49,6 +49,7 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     airbrussh (1.4.0)
       sshkit (>= 1.6.1, != 1.7.0)
+    amq-protocol (2.3.2)
     annotate (3.1.1)
       activerecord (>= 3.2, < 7.0)
       rake (>= 10.4, < 14.0)
@@ -87,6 +88,8 @@ GEM
     bullet (6.1.0)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
+    bunny (2.14.4)
+      amq-protocol (~> 2.3, >= 2.3.0)
     byebug (11.1.1)
     capistrano (3.12.1)
       airbrussh (>= 1.0.0)
@@ -517,17 +520,26 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
+    serverengine (2.0.7)
+      sigdump (~> 0.2.2)
     sexp_processor (4.14.1)
     sidekiq (5.2.8)
       connection_pool (~> 2.2, >= 2.2.2)
       rack (< 2.1.0)
       rack-protection (>= 1.5.0)
       redis (>= 3.3.5, < 5)
+    sigdump (0.2.4)
     simplecov (0.18.5)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
     simplecov-html (0.12.2)
     slop (3.6.0)
+    sneakers (2.11.0)
+      bunny (~> 2.12)
+      concurrent-ruby (~> 1.0)
+      rake
+      serverengine (~> 2.0.5)
+      thor
     spring (2.1.0)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -605,6 +617,7 @@ DEPENDENCIES
   browser_warrior (>= 0.8.0)
   bugsnag (~> 6.12)
   bullet
+  bunny (~> 2.14.1)
   byebug
   capistrano (~> 3.11)
   capistrano-bundler (~> 1.5)
@@ -682,6 +695,7 @@ DEPENDENCIES
   selenium-webdriver
   sidekiq
   simplecov
+  sneakers
   spring
   spring-watcher-listen (~> 2.0.0)
   sprockets (~> 3.0)

@@ -113,7 +113,7 @@ gem 'bootstrap', '~> 4.3.0'
 # gem 'elastic-apm'
 # gem "elasticsearch-model"
 # gem "elasticsearch-rails"
-#
+# 配套 es 的使用的搜索工具
 # gem 'searchkick'
 
 # 用户系统
@@ -168,9 +168,6 @@ gem 'browser_warrior', '>= 0.8.0'
 # 用于处理跨域资源共享（CORS）的机架中间件，这使得跨域AJAX成为可能。
 # gem 'rack-cors'
 
-# 文档工具
-# gem "sdoc", "~> 1.0.0.rc3"
-
 # 赞、关注、收藏、屏蔽等功能的数据结构
 # gem "action-store"
 
@@ -183,13 +180,13 @@ gem 'browser_warrior', '>= 0.8.0'
 # gem "rails-settings-cached", "~> 2.0"
 
 # 一个使用 Ruby 连接和操作 RabbitMQ 的客户端
-# gem "bunny", ">= 2.14.1"
+gem "bunny", "~> 2.14.1"
 # 业务通过 Bunny 在 Rails 中简易、快速地生产发布了消息，就需要有消费者来接收和消费消息，
 # Sneakers 是一个处理 RabbitMQ 消息队列的高性能 Ruby 框架
-# gem 'sneakers'
+gem 'sneakers'
 
 # aasm ruby类的状态机（支持普通Ruby，ActiveRecord，Mongoid）
-# gem 'aasm'
+gem 'aasm'
 
 # 一些使用rack协议编写的小工具。
 gem "rack-contrib"
